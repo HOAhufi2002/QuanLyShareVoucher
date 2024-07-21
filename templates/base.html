@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="YourCompanyName">
+    <link href="https://fonts.googleapis.com/css?family=Poppins:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i&display=swap" rel="stylesheet">
+    <title>{% block title %}Trang chủ{% endblock %}</title>
+    <!-- Additional CSS Files -->
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/font-awesome.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/owl-carousel.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/tooplate-artxibition.css') }}">
+    
+    <style>
+        .dropdown-menu {
+            z-index: 1050; /* Đặt giá trị cao để menu hiển thị trên cùng */
+            position: absolute;
+        }
+
+        .dropdown:hover .dropdown-menu {
+            display: block;
+            margin-top: 0; /* Bỏ khoảng cách trên cùng */
+        }
+        
+        .header-area .nav .dropdown-menu {
+            margin-top: 0 !important; /* Đảm bảo menu hiển thị ngay dưới mục cha */
+        }
+        .dropdown-menu {
+            z-index: 1050;
+            position: absolute;
+            width: auto; /* Để menu tự động co giãn theo nội dung */
+            min-width: 200px; /* Đặt chiều rộng tối thiểu nếu cần */
+            padding: 10px; /* Thêm khoảng cách bên trong menu */
+        }
+        
+        .dropdown-menu li {
+            display: block;
+        }
+        
+        .dropdown-menu li a {
+            white-space: nowrap; /* Đảm bảo nội dung không bị ngắt dòng */
+            padding: 5px 10px; /* Thêm khoảng cách cho liên kết */
+        }
+
+        .notification-bell {
+            position: relative;
+        }
+
+        .notification-bell .badge {
+            position: absolute;
+            top: -10px;
+            right: -10px;
+            background: red;
+            color: white;
+            border-radius: 50%;
+            padding: 5px 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- ***** Preloader Start ***** -->
+    <div id="js-preloader" class="js-preloader">
+        <div class="preloader-inner">
+            <span class="dot"></span>
+            <div class="dots">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </div>
+    <!-- ***** Preloader End ***** -->
+
+    <!-- ***** Pre Header ***** -->
+    <div class="pre-header">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-6 col-sm-6">
+                    <span>Welcome to our discount platform!</span>
+                </div>
+                <div class="col-lg-6 col-sm-6">
+                    <div class="text-button">
+                        <a href="{{ url_for('main.contact') }}">Contact Us Now! <i class="fa fa-arrow-right"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ***** Header Area Start ***** -->
+    <header class="header-area header-sticky">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <nav class="main-nav">
+                        <!-- ***** Logo Start ***** -->
+                        <a href="{{ url_for('main.home') }}" class="logo">Discount<em>Platform</em></a>
+                        <!-- ***** Logo End ***** -->
+                        <!-- ***** Menu Start ***** -->
+                        <ul class="nav">
+                            <li><a href="{{ url_for('main.home') }}" class="active">Trang chủ</a></li>
+                            <li><a href="{{ url_for('discount.discount_list') }}">Mã Giảm Giá</a></li>
+                            <li><a href="{{ url_for('supplier.supplier_list') }}">Nhà cung cấp</a></li>
+
+                            {% if 'user_id' in session %}
+                                <li class="dropdown">
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                        Chào mừng, {{ session['user_name'] }}
+                                        <span class="caret"></span>
+                                    </a>
+                                    <ul class="dropdown-menu">
+                                        <li><a href="{{ url_for('main.profile') }}">Thông tin tài khoản</a></li>
+                                        
+                                        <li><a href="{{ url_for('favorite.favorite_list') }}">Danh sách yêu thích</a></li>
+                                        <li class="nav-item"><a class="nav-link" href="{{ url_for('notification.notifications') }}" class="notification-bell">Thông báo</a></li>
+
+                                        <li><a href="{{ url_for('auth.logout') }}">Đăng xuất</a></li>
+                                    </ul>
+                                </li>
+                                {% if session['user_role'] == 'admin' %}
+                                    <li class="dropdown">
+                                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                            Quản trị
+                                            <span class="caret"></span>
+                                        </a>
+                                        <ul class="dropdown-menu">
+                                            <li class="nav-item"><a class="nav-link" href="{{ url_for('admin.manage_discounts') }}">Quản lý giảm giá</a></li>
+                                            <li class="nav-item"><a class="nav-link" href="{{ url_for('admin.manage_vouchers') }}">Quản lý mã giảm giá</a></li>
+                                            <li class="nav-item"><a class="nav-link" href="{{ url_for('admin.manage_suppliers') }}">Quản lý nhà cung cấp</a></li>
+
+                                        </ul>
+                                    </li>
+                                {% endif %}
+                            {% else %}
+                                <li><a href="{{ url_for('auth.login') }}">Đăng nhập</a></li>
+                            {% endif %}
+                        </ul>
+                        
+                        <a class='menu-trigger'>
+                            <span>Menu</span>
+                        </a>
+                        <!-- ***** Menu End ***** -->
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </header>
+    <!-- ***** Header Area End ***** -->
+
+    <!-- ***** Main Content Start ***** -->
+    <div class="page-heading-rent-venue">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <h2>{% block page_heading %}{% endblock %}</h2>
+                    <span>{% block page_subheading %}{% endblock %}</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="shows-events-schedule">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    {% block content %}{% endblock %}
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- ***** Main Content End ***** -->
+
+    <!-- *** Subscribe *** -->
+    <div class="subscribe">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-4">
+                    <h4>Đăng ký nhận tin:</h4>
+                </div>
+                <div class="col-lg-8">
+                    <form id="subscribe" action="" method="get">
+                        <div class="row">
+                            <div class="col-lg-9">
+                                <fieldset>
+                                    <input name="email" type="text" id="email" pattern="[^ @]*@[^ @]*" placeholder="Địa chỉ Email của bạn" required="">
+                                </fieldset>
+                            </div>
+                            <div class="col-lg-3">
+                                <fieldset>
+                                    <button type="submit" id="form-submit" class="main-dark-button">Gửi</button>
+                                </fieldset>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- *** Footer *** -->
+    <footer>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-4">
+                    <div class="address">
+                        <h4>Địa chỉ văn phòng</h4>
+                        <span>123 Đường ABC, Quận 1, TP HCM</span>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="links">
+                        <h4>Liên kết hữu ích</h4>
+                        <ul>
+                            <li><a href="#">Thông tin</a></li>
+                            <li><a href="#">Địa điểm</a></li>
+                            <li><a href="#">Hướng dẫn</a></li>
+                            <li><a href="#">Video</a></li>
+                            <li><a href="#">Liên hệ</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="hours">
+                        <h4>Giờ mở cửa</h4>
+                        <ul>
+                            <li>Thứ 2 - Thứ 6: 10:00 - 20:00</li>
+                            <li>Thứ 7 - CN: 11:00 - 16:00</li>
+                            <li>Nghỉ lễ: Đóng cửa</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-lg-12">
+                    <div class="under-footer">
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <p>TP HCM, Việt Nam</p>
+                            </div>
+                            <div class="col-lg-6">
+                                <p class="copyright">Bản quyền 2024 Công ty Giảm Giá
+                                    <br>Thiết kế bởi: <a rel="nofollow" href="https://www.tooplate.com" target="_parent">Tooplate</a></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-12">
+                    <div class="sub-footer">
+                        <div class="row">
+                            <div class="col-lg-3">
+                                <div class="logo"><span>Discount<em>Platform</em></span></div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="menu">
+                                    <ul>
+                                        <li><a href="{{ url_for('main.home') }}" class="active">Trang chủ</a></li>
+                                        <li><a href="{{ url_for('main.home') }}">Hướng dẫn</a></li>
+                                        <li><a href="{{ url_for('main.home') }}">Địa điểm</a></li>
+                                        <li><a href="{{ url_for('main.home') }}">Liên hệ</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="col-lg-3">
+                                <div class="social-links">
+                                    <ul>
+                                        <li><a href="#"><i class="fa fa-twitter"></i></a></li>
+                                        <li><a href="#"><i class="fa fa-facebook"></i></a></li>
+                                        <li><a href="#"><i class="fa fa-behance"></i></a></li>
+                                        <li><a href="#"><i class="fa fa-instagram"></i></a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- jQuery -->
+    <script src="{{ url_for('static', filename='js/jquery-2.1.0.min.js') }}"></script>
+    <!-- Bootstrap -->
+    <script src="{{ url_for('static', filename='js/popper.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
+    <!-- Plugins -->
+    <script src="{{ url_for('static', filename='js/scrollreveal.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/waypoints.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/jquery.counterup.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/imgfix.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/mixitup.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/accordions.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/owl-carousel.js') }}"></script>
+    <!-- Global Init -->
+    <script src="{{ url_for('static', filename='js/custom.js') }}"></script>
+</body>
+
+</html>

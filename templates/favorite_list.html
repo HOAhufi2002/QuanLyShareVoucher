@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block title %}Danh sách yêu thích{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h1 class="mb-4">Danh sách yêu thích</h1>
+
+    <ul class="list-group">
+        {% for item in favorites %}
+            <li class="list-group-item">
+                <h3>{{ item.tenChuongTrinh }} ({{ item.phanTramGiamGia }}%)</h3>
+                <p>{{ item.moTa }}</p>
+                <p>Mã giảm giá: {{ item.ma }}</p>
+                <p>Ngày bắt đầu: {{ item.ngayBatDau }}</p>
+                <p>Ngày kết thúc: {{ item.ngayKetThuc }}</p>
+                <a href="{{ url_for('main.chuongtrinh_detail', id=item.id) }}" class="btn btn-info btn-sm">Chi tiết</a>
+                <form method="post" action="{{ url_for('favorite.remove_favorite', chuongtrinh_id=item.id) }}" style="display:inline;">
+                    <button type="submit" class="btn btn-danger btn-sm">Xóa khỏi yêu thích</button>
+                </form>
+            </li>
+        {% endfor %}
+    </ul>
+</div>
+{% endblock %}

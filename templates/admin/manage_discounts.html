@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+
+{% block title %}Quản lý chương trình giảm giá{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1 class="mt-4 mb-4">Quản lý chương trình giảm giá</h1>
+
+    <form method="post" class="mb-4">
+        <div class="form-group">
+            <label for="ten_chuong_trinh">Tên chương trình:</label>
+            <input type="text" name="ten_chuong_trinh" id="ten_chuong_trinh" class="form-control" required>
+        </div>
+        <div class="form-group">
+            <label for="mo_ta">Mô tả:</label>
+            <textarea name="mo_ta" id="mo_ta" class="form-control" required></textarea>
+        </div>
+        <div class="form-group">
+            <label for="ngay_bat_dau">Ngày bắt đầu:</label>
+            <input type="date" name="ngay_bat_dau" id="ngay_bat_dau" class="form-control" required>
+        </div>
+        <div class="form-group">
+            <label for="ngay_ket_thuc">Ngày kết thúc:</label>
+            <input type="date" name="ngay_ket_thuc" id="ngay_ket_thuc" class="form-control" required>
+        </div>
+        <div class="form-group">
+            <label for="nha_cung_cap">Nhà cung cấp:</label>
+            <select name="nha_cung_cap" id="nha_cung_cap" class="form-control" required>
+                {% for supplier in suppliers %}
+                    <option value="{{ supplier.id }}">{{ supplier.tenNhaCungCap }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <button type="submit" class="btn btn-primary">Thêm chương trình</button>
+    </form>
+
+    <ul class="list-group">
+        {% for discount in discounts %}
+            <li class="list-group-item mb-2">
+                <h3>{{ discount.tenChuongTrinh }}</h3>
+                <p>{{ discount.moTa }}</p>
+                <p>Ngày bắt đầu: {{ discount.ngayBatDau }}</p>
+                <p>Ngày kết thúc: {{ discount.ngayKetThuc }}</p>
+                <p>Nhà cung cấp: {{ discount.tenNhaCungCap }}</p>
+                <a href="{{ url_for('admin.edit_discount', discount_id=discount.id) }}" class="btn btn-warning btn-sm">Chỉnh sửa</a>
+                <form method="post" action="{{ url_for('admin.delete_discount', discount_id=discount.id) }}" style="display:inline;">
+                    <button type="submit" class="btn btn-danger btn-sm">Xóa</button>
+                </form>
+            </li>
+        {% endfor %}
+    </ul>
+</div>
+{% endblock %}

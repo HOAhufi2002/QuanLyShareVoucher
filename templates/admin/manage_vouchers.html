@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+
+{% block title %}Quản lý mã giảm giá{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1 class="mt-4 mb-4">Quản lý mã giảm giá</h1>
+
+    <form method="post" class="mb-4">
+        <div class="form-group">
+            <label for="ma">Mã giảm giá:</label>
+            <input type="text" name="ma" id="ma" class="form-control" required>
+        </div>
+        <div class="form-group">
+            <label for="phan_tram_giam_gia">Phần trăm giảm giá:</label>
+            <input type="number" name="phan_tram_giam_gia" id="phan_tram_giam_gia" class="form-control" required>
+        </div>
+        <div class="form-group">
+            <label for="ngay_het_han">Ngày hết hạn:</label>
+            <input type="date" name="ngay_het_han" id="ngay_het_han" class="form-control" required>
+        </div>
+        <div class="form-group">
+            <label for="chuong_trinh_giam_gia">Chương trình giảm giá:</label>
+            <select name="chuong_trinh_giam_gia" id="chuong_trinh_giam_gia" class="form-control" required>
+                {% for program in programs %}
+                    <option value="{{ program.id }}">{{ program.tenChuongTrinh }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <button type="submit" class="btn btn-primary">Thêm mã giảm giá</button>
+    </form>
+
+    <ul class="list-group">
+        {% for voucher in vouchers %}
+            <li class="list-group-item mb-2">
+                <h3>{{ voucher.ma }} ({{ voucher.phanTramGiamGia }}%)</h3>
+                <p>Ngày hết hạn: {{ voucher.ngayHetHan }}</p>
+                <p>Chương trình giảm giá: {{ voucher.tenChuongTrinh }}</p>
+                <a href="{{ url_for('admin.edit_voucher', voucher_id=voucher.id) }}" class="btn btn-warning btn-sm">Chỉnh sửa</a>
+                <form method="post" action="{{ url_for('admin.delete_voucher', voucher_id=voucher.id) }}" style="display:inline;">
+                    <button type="submit" class="btn btn-danger btn-sm">Xóa</button>
+                </form>
+            </li>
+        {% endfor %}
+    </ul>
+</div>
+{% endblock %}

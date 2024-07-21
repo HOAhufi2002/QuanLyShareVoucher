@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+{% block title %}Danh sách mã giảm giá{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1 class="mt-4 mb-4">Danh sách mã giảm giá</h1>
+
+    <form method="get" action="{{ url_for('discount.discount_list') }}" class="mb-4">
+        <div class="row">
+            <div class="col-md-4 mb-2">
+                <input type="text" name="search" class="form-control" placeholder="Tìm kiếm theo chương trình" value="{{ request.args.get('search', '') }}">
+            </div>
+            <div class="col-md-4 mb-2">
+                <input type="date" name="expiry_date" class="form-control" placeholder="Ngày hết hạn" value="{{ request.args.get('expiry_date', '') }}">
+            </div>
+            <div class="col-md-4 mb-2">
+                <input type="number" name="discount_percent" class="form-control" placeholder="Phần trăm giảm giá" value="{{ request.args.get('discount_percent', '') }}">
+            </div>
+            <div class="col-md-4 mb-2">
+                <button type="submit" class="btn btn-primary w-100">Tìm kiếm</button>
+            </div>
+        </div>
+    </form>
+
+    <ul class="list-group">
+        {% for item in discounts %}
+            <li class="list-group-item mb-2">
+                <h3>{{ item.tenChuongTrinh }} ({{ item.phanTramGiamGia }}%)</h3>
+                <p>{{ item.moTa }}</p>
+                <p><strong>Mã giảm giá:</strong> {{ item.ma }}</p>
+                <p><strong>Ngày bắt đầu:</strong> {{ item.ngayBatDau }}</p>
+                <p><strong>Ngày kết thúc:</strong> {{ item.ngayKetThuc }}</p>
+                <a href="{{ url_for('discount.discount_detail', discount_id=item.id) }}" class="btn btn-info btn-sm mb-2">Chi tiết</a>
+                {% if 'user_id' in session %}
+                    <form method="post" action="{{ url_for('favorite.add_favorite', chuongtrinh_id=item.id) }}" class="d-inline">
+                        <button type="submit" class="btn btn-secondary btn-sm mb-2">Thêm vào yêu thích</button>
+                    </form>
+                {% endif %}
+            </li>
+        {% endfor %}
+    </ul>
+</div>
+{% endblock %}

@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+
+{% block title %}Chi tiết chương trình giảm giá{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h1 class="mb-4">Chi tiết chương trình giảm giá: {{ discount.tenChuongTrinh }}</h1>
+
+    <div class="mb-3">
+        <p><strong>Mã giảm giá:</strong> {{ discount.ma }}</p>
+        <p><strong>Phần trăm giảm giá:</strong> {{ discount.phanTramGiamGia }}%</p>
+        <p><strong>Ngày bắt đầu:</strong> {{ discount.ngayBatDau }}</p>
+        <p><strong>Ngày kết thúc:</strong> {{ discount.ngayKetThuc }}</p>
+        <p><strong>Mô tả:</strong> {{ discount.moTa }}</p>
+    </div>
+
+    <!-- Phần hiển thị phản hồi và đánh giá -->
+    <h2>Phản hồi và đánh giá</h2>
+    <ul class="list-group mb-4">
+        {% for feedback in feedbacks %}
+            <li class="list-group-item">
+                <p><strong>{{ feedback.hoTen }}:</strong> {{ feedback.noiDung }}</p>
+                <p>Ngày phản hồi: {{ feedback.ngayPhanHoi }}</p>
+            </li>
+        {% endfor %}
+    </ul>
+
+    <ul class="list-group mb-4">
+        {% for rating in ratings %}
+            <li class="list-group-item">
+                <p><strong>{{ rating.hoTen }}:</strong> Đánh giá {{ rating.diemDanhGia }}/5</p>
+                <p>Ngày đánh giá: {{ rating.ngayDanhGia }}</p>
+            </li>
+        {% endfor %}
+    </ul>
+
+    <!-- Nút để hiển thị form phản hồi và đánh giá -->
+    {% if 'user_id' in session %}
+        <button id="show-feedback-form" class="btn btn-primary mb-4" onclick="document.getElementById('feedback-form').style.display='block'; this.style.display='none';">Gửi phản hồi và đánh giá</button>
+
+        <div id="feedback-form" style="display: none;">
+            <h2>Gửi phản hồi và đánh giá của bạn</h2>
+            <form method="post" action="{{ url_for('discount.discount_detail', discount_id=discount.id) }}">
+                <div class="form-group">
+                    <label for="content">Nội dung:</label>
+                    <textarea class="form-control" name="content" id="content" rows="3" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="rating">Đánh giá:</label>
+                    <select class="form-control" name="rating" id="rating" required>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn btn-success">Gửi phản hồi và đánh giá</button>
+            </form>
+        </div>
+    {% else %}
+        <p><a href="{{ url_for('auth.login') }}">Đăng nhập</a> để gửi phản hồi và đánh giá.</p>
+    {% endif %}
+</div>
+{% endblock %}

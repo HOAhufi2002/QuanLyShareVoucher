@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+
+{% block title %}Phản hồi và đánh giá{% endblock %}
+
+{% block content %}
+<h1>Phản hồi và đánh giá cho {{ discount.tenChuongTrinh }}</h1>
+
+<h2>Phản hồi</h2>
+<ul>
+    {% for feedback in feedbacks %}
+        <li>
+            <p><strong>{{ feedback.hoTen }}:</strong> {{ feedback.noiDung }}</p>
+            <p>Ngày gửi: {{ feedback.ngayGui }}</p>
+        </li>
+    {% endfor %}
+</ul>
+
+<h2>Đánh giá</h2>
+<ul>
+    {% for rating in ratings %}
+        <li>
+            <p><strong>{{ rating.hoTen }}:</strong> Đánh giá {{ rating.diemDanhGia }}/5</p>
+            <p>Ngày gửi: {{ rating.ngayGui }}</p>
+        </li>
+    {% endfor %}
+</ul>
+
+{% if 'user_id' in session %}
+    <h2>Gửi phản hồi và đánh giá của bạn</h2>
+    <form method="post" action="{{ url_for('feedback.feedback_list', discount_id=discount.id) }}">
+        <div>
+            <label for="content">Nội dung:</label>
+            <textarea name="content" id="content" required></textarea>
+        </div>
+        <div>
+            <label for="rating">Đánh giá:</label>
+            <select name="rating" id="rating" required>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+            </select>
+        </div>
+        <div>
+            <button type="submit">Gửi phản hồi và đánh giá</button>
+        </div>
+    </form>
+{% else %}
+    <p><a href="{{ url_for('auth.login') }}">Đăng nhập</a> để gửi phản hồi và đánh giá.</p>
+{% endif %}
+{% endblock %}

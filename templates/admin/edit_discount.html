@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{% block title %}Chỉnh sửa chương trình giảm giá{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1 class="mt-4 mb-4">Chỉnh sửa chương trình giảm giá</h1>
+    <form method="post">
+        <div class="form-group">
+            <label for="ten_chuong_trinh">Tên chương trình:</label>
+            <input type="text" name="ten_chuong_trinh" id="ten_chuong_trinh" class="form-control" value="{{ discount.tenChuongTrinh }}" required>
+        </div>
+        <div class="form-group">
+            <label for="mo_ta">Mô tả:</label>
+            <textarea name="mo_ta" id="mo_ta" class="form-control" required>{{ discount.moTa }}</textarea>
+        </div>
+        <div class="form-group">
+            <label for="ngay_bat_dau">Ngày bắt đầu:</label>
+            <input type="date" name="ngay_bat_dau" id="ngay_bat_dau" class="form-control" value="{{ discount.ngayBatDau }}" required>
+        </div>
+        <div class="form-group">
+            <label for="ngay_ket_thuc">Ngày kết thúc:</label>
+            <input type="date" name="ngay_ket_thuc" id="ngay_ket_thuc" class="form-control" value="{{ discount.ngayKetThuc }}" required>
+        </div>
+        <div class="form-group">
+            <label for="nha_cung_cap">Nhà cung cấp:</label>
+            <select name="nha_cung_cap" id="nha_cung_cap" class="form-control" required>
+                {% for supplier in suppliers %}
+                    <option value="{{ supplier.id }}" {% if supplier.id == discount.idNhaCungCap %}selected{% endif %}>{{ supplier.tenNhaCungCap }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <button type="submit" class="btn btn-primary">Cập nhật</button>
+    </form>
+</div>
+{% endblock %}

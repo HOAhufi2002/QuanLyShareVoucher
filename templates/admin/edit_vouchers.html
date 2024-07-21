@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block title %}Chỉnh sửa mã giảm giá{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1 class="mt-4 mb-4">Chỉnh sửa mã giảm giá</h1>
+    <form method="post">
+        <div class="form-group">
+            <label for="ma">Mã giảm giá:</label>
+            <input type="text" name="ma" id="ma" class="form-control" value="{{ voucher.ma }}" required>
+        </div>
+        <div class="form-group">
+            <label for="phan_tram_giam_gia">Phần trăm giảm giá:</label>
+            <input type="number" name="phan_tram_giam_gia" id="phan_tram_giam_gia" class="form-control" value="{{ voucher.phanTramGiamGia }}" required>
+        </div>
+        <div class="form-group">
+            <label for="ngay_het_han">Ngày hết hạn:</label>
+            <input type="date" name="ngay_het_han" id="ngay_het_han" class="form-control" value="{{ voucher.ngayHetHan }}" required>
+        </div>
+        <div class="form-group">
+            <label for="chuong_trinh_giam_gia">Chương trình giảm giá:</label>
+            <select name="chuong_trinh_giam_gia" id="chuong_trinh_giam_gia" class="form-control" required>
+                {% for program in programs %}
+                    <option value="{{ program.id }}" {% if program.id == voucher.idChuongTrinhGiamGia %}selected{% endif %}>{{ program.tenChuongTrinh }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <button type="submit" class="btn btn-primary">Cập nhật</button>
+    </form>
+</div>
+{% endblock %}

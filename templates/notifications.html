@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{% block title %}Thông báo{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1 class="mt-4 mb-4">Thông báo</h1>
+    <ul class="list-group">
+        {% for notification in notifications %}
+            <li class="list-group-item mb-2">
+                <p>{{ notification.noiDung }}</p>
+                <p>Ngày gửi: {{ notification.ngayGui }}</p>
+                {% if notification.trangThai == 'chuaDoc' %}
+                    <form method="post" action="{{ url_for('notification.mark_as_read', notification_id=notification.id) }}" style="display:inline;">
+                        <button type="submit" class="btn btn-primary btn-sm">Đánh dấu đã đọc</button>
+                    </form>
+                {% else %}
+                    <span class="badge badge-success">Đã đọc</span>
+                {% endif %}
+            </li>
+        {% endfor %}
+    </ul>
+</div>
+{% endblock %}

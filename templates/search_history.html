@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+{% block title %}Lịch sử tìm kiếm{% endblock %}
+
+
+{% block content %}
+<div class="search-history">
+    <form method="post" action="{{ url_for('search.add_search') }}">
+        <input type="text" name="keyword" placeholder="Tìm kiếm...">
+        <button type="submit">Tìm</button>
+    </form>
+    {% for history in history %}
+        <div class="search-item">
+            <h3>{{ history.tuKhoa }}</h3>
+            <a href="{{ url_for('search.delete_search', keyword=history.tuKhoa) }}">Xóa</a>
+        </div>
+    {% endfor %}
+</div>
+{% endblock %}

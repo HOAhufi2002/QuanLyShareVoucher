@@ -1,0 +1,60 @@
+body {
+    font-family: Arial, sans-serif;
+}
+
+nav ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+nav ul li {
+    display: inline;
+    margin-right: 10px;
+}
+
+.content {
+    margin: 20px;
+}
+
+.discount-list {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.discount-item {
+    width: 30%;
+    margin: 10px;
+    padding: 10px;
+    border: 1px solid #ccc;
+}
+
+.dropdown-menu {
+    display: none;
+    position: absolute;
+    background-color: white;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+    z-index: 1;
+}
+
+.dropdown-menu {
+    z-index: 1050;
+    /* Đặt giá trị cao để menu hiển thị trên cùng */
+}
+
+.dropdown:hover .dropdown-menu {
+    display: block;
+}
+
+.dropdown-menu li {
+    padding: 12px 16px;
+}
+
+.dropdown-menu li a {
+    color: black;
+    text-decoration: none;
+}
+
+.dropdown-menu li a:hover {
+    background-color: #ddd;
+}

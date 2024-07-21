@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<!-- Carousel -->
+<div id="carouselExampleIndicators" class="carousel slide">
+  <ol class="carousel-indicators">
+    {% for i in range(2) %} <!-- Số lượng ảnh bạn có -->
+    <li data-target="#carouselExampleIndicators" data-slide-to="{{ i }}" class="{% if i == 0 %}active{% endif %}"></li>
+    {% endfor %}
+  </ol>
+  <div class="carousel-inner">
+    {% set images = [
+      'https://channel.mediacdn.vn/428462621602512896/2023/5/30/2-1-16854383903481598745501.gif',
+      'https://channel.mediacdn.vn/428462621602512896/2024/1/13/158902c1c-6bb0-4364-a181-e697fa8c8c14-17051225463232090158682.gif'
+    ] %}
+    {% for i in range(3) %} <!-- Số lượng ảnh bạn có -->
+    <div class="carousel-item {% if i == 0 %}active{% endif %}">
+      <img class="d-block w-100" src="{{ images[i] }}" alt="Slide {{ i }}">
+      <div class="carousel-caption d-none d-md-block">
+        <h5>{{ i + 1 }}</h5>
+        <p>Chi tiết về chương trình giảm giá {{ i + 1 }}.</p>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+  <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+    <span class="sr-only">Previous</span>
+  </a>
+  <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+    <span class="sr-only">Next</span>
+  </a>
+</div>
+
+<ul>
+    {% for item in chuongtrinh %}
+        <li><a href="{{ url_for('main.chuongtrinh_detail', id=item.id) }}">{{ item.tenChuongTrinh }}</a></li>
+    {% endfor %}
+</ul>
+
+<!-- Inline CSS -->
+<style>
+  .carousel {
+    width: 100%;
+  }
+
+  .carousel-inner {
+    width: 100%;
+  }
+
+  .carousel-item {
+    width: 100%;
+  }
+
+  .carousel-item img {
+    width: 100%;
+    height: auto; /* Giữ tỉ lệ của ảnh, không làm ảnh bị méo */
+    object-fit: cover; /* Đảm bảo ảnh phủ hết khung mà không bị biến dạng */
+  }
+</style>
+
+{% endblock %}
