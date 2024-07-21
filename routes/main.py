@@ -5,10 +5,37 @@ from models.nguoidung import NguoiDung
 from models.user import User
 from werkzeug.security import generate_password_hash, check_password_hash
 from models.notification import Notification
+from models.feedback import Feedback  # Giả sử bạn có model Feedback để lấy dữ liệu phản hồi
+from models.rating import Rating      # Giả sử bạn có model Rating để lấy dữ liệu đánh giá
+import json
 @main_bp.route('/')
 def home():
-    discounts = Discount.get_all_discounts()
-    return render_template('home.html', discounts=discounts)
+    if 'user_id' in session:
+        user_id = session['user_id']
+        notifications = Notification.get_notifications(user_id)
+        notification_count = len([n for n in notifications if n[3] == 'chuaDoc'])
+    else:
+        notification_count = 0
+
+    user_role = session.get('user_role')
+    feedback_data = None
+    rating_data = None
+    chuongtrinh = []
+    
+    if user_role == 'admin':
+        feedback_data = json.dumps(Feedback.get_top_feedback_vouchers())
+        rating_data = json.dumps(Rating.get_top_rated_vouchers())
+    else:
+        discounts = Discount.get_all_discounts()
+        chuongtrinh = get_chuongtrinh()
+    
+    return render_template('home.html', user_role=user_role, feedback_data=feedback_data, rating_data=rating_data, chuongtrinh=chuongtrinh, notification_count=notification_count)
+def get_chuongtrinh():
+    # Định nghĩa hàm này để lấy dữ liệu của chương trình
+    return [
+        {'id': 1, 'tenChuongTrinh': 'Chương trình 1'},
+        {'id': 2, 'tenChuongTrinh': 'Chương trình 2'}
+    ]
 
 @main_bp.route('/chuongtrinh/<int:id>')
 def chuongtrinh_detail(id):

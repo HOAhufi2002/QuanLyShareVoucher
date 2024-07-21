@@ -6,22 +6,7 @@
 <div class="container">
     <h1 class="mt-4 mb-4">Danh sách mã giảm giá</h1>
 
-    <form method="get" action="{{ url_for('discount.discount_list') }}" class="mb-4">
-        <div class="row">
-            <div class="col-md-4 mb-2">
-                <input type="text" name="search" class="form-control" placeholder="Tìm kiếm theo chương trình" value="{{ request.args.get('search', '') }}">
-            </div>
-            <div class="col-md-4 mb-2">
-                <input type="date" name="expiry_date" class="form-control" placeholder="Ngày hết hạn" value="{{ request.args.get('expiry_date', '') }}">
-            </div>
-            <div class="col-md-4 mb-2">
-                <input type="number" name="discount_percent" class="form-control" placeholder="Phần trăm giảm giá" value="{{ request.args.get('discount_percent', '') }}">
-            </div>
-            <div class="col-md-4 mb-2">
-                <button type="submit" class="btn btn-primary w-100">Tìm kiếm</button>
-            </div>
-        </div>
-    </form>
+
 
     <ul class="list-group">
         {% for item in discounts %}

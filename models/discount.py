@@ -123,3 +123,40 @@ class Discount:
         discounts = cursor.fetchall()
         conn.close()
         return discounts
+    @staticmethod
+    def search_discounts(search=None, expiry_date=None, discount_percent=None):
+        conn = get_db_connection()
+        cursor = conn.cursor()
+        
+        query = '''
+            SELECT 
+                ChuongTrinhGiamGia.id,
+                ChuongTrinhGiamGia.tenChuongTrinh,
+                ChuongTrinhGiamGia.moTa,
+                ChuongTrinhGiamGia.ngayBatDau,
+                ChuongTrinhGiamGia.ngayKetThuc,
+                MaGiamGia.ma,
+                MaGiamGia.phanTramGiamGia
+            FROM 
+                ChuongTrinhGiamGia
+            JOIN 
+                MaGiamGia ON ChuongTrinhGiamGia.id = MaGiamGia.idChuongTrinhGiamGia
+            WHERE 
+                ChuongTrinhGiamGia.isDel = 0 AND MaGiamGia.isDel = 0
+        '''
+        params = []
+
+        if search:
+            query += ' AND ChuongTrinhGiamGia.tenChuongTrinh LIKE ?'
+            params.append(f'%{search}%')
+        if expiry_date:
+            query += ' AND MaGiamGia.ngayHetHan <= ?'
+            params.append(expiry_date)
+        if discount_percent:
+            query += ' AND MaGiamGia.phanTramGiamGia >= ?'
+            params.append(discount_percent)
+
+        cursor.execute(query, params)
+        discounts = cursor.fetchall()
+        conn.close()
+        return discounts

@@ -20,3 +20,4 @@ def feedback_list(discount_id):
     feedbacks = Feedback.get_feedback_by_discount_id(discount_id)
     ratings = Rating.get_ratings_by_discount_id(discount_id)
     return render_template('feedback_list.html', discount=discount, feedbacks=feedbacks, ratings=ratings)
+

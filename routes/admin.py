@@ -70,7 +70,8 @@ def manage_vouchers():
 
         # Thêm thông báo
         discount = Discount.get_discount_by_id(chuong_trinh_giam_gia_id)
-        noi_dung = f"{discount['moTa']} - Mã giảm giá: {ma} - Giảm giá: {phan_tram_giam_gia}%"
+        noi_dung = f"{discount[1]} - Mã giảm giá: {ma} - Giảm giá: {phan_tram_giam_gia}%"
+
         Notification.add_notification(noi_dung, date.today(), 'chuaDoc')
 
     vouchers = Voucher.get_all_vouchers_with_programs()

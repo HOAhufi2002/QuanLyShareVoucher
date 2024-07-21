@@ -22,5 +22,9 @@ def discount_detail(discount_id):
     return render_template('chuongtrinh_detail.html', discount=discount, feedbacks=feedbacks, ratings=ratings)
 @discount_bp.route('/discounts', methods=['GET'])
 def discount_list():
-    discounts = Discount.get_all_discounts()
+    search = request.args.get('search')
+    expiry_date = request.args.get('expiry_date')
+    discount_percent = request.args.get('discount_percent')
+
+    discounts = Discount.search_discounts(search, expiry_date, discount_percent)
     return render_template('discount_list.html', discounts=discounts)

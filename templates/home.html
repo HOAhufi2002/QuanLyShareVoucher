@@ -1,44 +1,108 @@
 {% extends "base.html" %}
 
 {% block content %}
+<div class="container">
+    {% if user_role == 'admin' %}
+        <h1 class="mt-4 mb-4">Bảng điều khiển admin</h1>
+        
+        <div class="row">
+            <div class="col-md-6">
+                <canvas id="feedbackChart"></canvas>
+            </div>
+            <div class="col-md-6">
+                <canvas id="ratingChart"></canvas>
+            </div>
+        </div>
 
-<!-- Carousel -->
-<div id="carouselExampleIndicators" class="carousel slide">
-  <ol class="carousel-indicators">
-    {% for i in range(2) %} <!-- Số lượng ảnh bạn có -->
-    <li data-target="#carouselExampleIndicators" data-slide-to="{{ i }}" class="{% if i == 0 %}active{% endif %}"></li>
-    {% endfor %}
-  </ol>
-  <div class="carousel-inner">
-    {% set images = [
-      'https://channel.mediacdn.vn/428462621602512896/2023/5/30/2-1-16854383903481598745501.gif',
-      'https://channel.mediacdn.vn/428462621602512896/2024/1/13/158902c1c-6bb0-4364-a181-e697fa8c8c14-17051225463232090158682.gif'
-    ] %}
-    {% for i in range(3) %} <!-- Số lượng ảnh bạn có -->
-    <div class="carousel-item {% if i == 0 %}active{% endif %}">
-      <img class="d-block w-100" src="{{ images[i] }}" alt="Slide {{ i }}">
-      <div class="carousel-caption d-none d-md-block">
-        <h5>{{ i + 1 }}</h5>
-        <p>Chi tiết về chương trình giảm giá {{ i + 1 }}.</p>
-      </div>
-    </div>
-    {% endfor %}
-  </div>
-  <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
-    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-    <span class="sr-only">Previous</span>
-  </a>
-  <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
-    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-    <span class="sr-only">Next</span>
-  </a>
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+        <script>
+            var feedbackData = JSON.parse('{{ feedback_data | safe }}');
+            var ratingData = JSON.parse('{{ rating_data | safe }}');
+
+            var feedbackCtx = document.getElementById('feedbackChart').getContext('2d');
+            var feedbackChart = new Chart(feedbackCtx, {
+                type: 'bar',
+                data: {
+                    labels: feedbackData.labels,
+                    datasets: [{
+                        label: 'Lượt phản hồi',
+                        data: feedbackData.values,
+                        backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                        borderColor: 'rgba(75, 192, 192, 1)',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+
+            var ratingCtx = document.getElementById('ratingChart').getContext('2d');
+            var ratingChart = new Chart(ratingCtx, {
+                type: 'bar',
+                data: {
+                    labels: ratingData.labels,
+                    datasets: [{
+                        label: 'Lượt đánh giá cao',
+                        data: ratingData.values,
+                        backgroundColor: 'rgba(153, 102, 255, 0.2)',
+                        borderColor: 'rgba(153, 102, 255, 1)',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+        </script>
+    {% else %}
+        <!-- Carousel -->
+        <div id="carouselExampleIndicators" class="carousel slide">
+            <ol class="carousel-indicators">
+                {% for i in range(2) %} <!-- Số lượng ảnh bạn có -->
+                <li data-target="#carouselExampleIndicators" data-slide-to="{{ i }}" class="{% if i == 0 %}active{% endif %}"></li>
+                {% endfor %}
+            </ol>
+            <div class="carousel-inner">
+                {% set images = [
+                  'https://channel.mediacdn.vn/428462621602512896/2023/5/30/2-1-16854383903481598745501.gif',
+                  'https://channel.mediacdn.vn/428462621602512896/2024/1/13/158902c1c-6bb0-4364-a181-e697fa8c8c14-17051225463232090158682.gif'
+                ] %}
+                {% for i in range(images | length) %} <!-- Số lượng ảnh bạn có -->
+                <div class="carousel-item {% if i == 0 %}active{% endif %}">
+                    <img class="d-block w-100" src="{{ images[i] }}" alt="Slide {{ i }}">
+                    <div class="carousel-caption d-none d-md-block">
+                        <h5>{{ i + 1 }}</h5>
+                        <p>Chi tiết về chương trình giảm giá {{ i + 1 }}.</p>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="sr-only">Previous</span>
+            </a>
+            <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="sr-only">Next</span>
+            </a>
+        </div>
+
+        <ul>
+            {% for item in chuongtrinh %}
+                <li><a href="{{ url_for('main.chuongtrinh_detail', id=item.id) }}">{{ item.tenChuongTrinh }}</a></li>
+            {% endfor %}
+        </ul>
+    {% endif %}
 </div>
-
-<ul>
-    {% for item in chuongtrinh %}
-        <li><a href="{{ url_for('main.chuongtrinh_detail', id=item.id) }}">{{ item.tenChuongTrinh }}</a></li>
-    {% endfor %}
-</ul>
 
 <!-- Inline CSS -->
 <style>
