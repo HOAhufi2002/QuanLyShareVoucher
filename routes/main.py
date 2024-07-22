@@ -47,20 +47,26 @@ def chuongtrinh_detail(id):
 
 @main_bp.route('/profile', methods=['GET', 'POST'])
 def profile():
-    if 'user_id' not in session:
+    user_id = session.get('user_id')
+    if not user_id:
         return redirect(url_for('auth.login'))
 
-    user_id = session['user_id']
     user = User.get_by_id(user_id)
-
+    
     if request.method == 'POST':
         ho_ten = request.form['ho_ten']
         email = request.form['email']
-        User.update_user_info(user_id, ho_ten, email)
-        flash('Thông tin cá nhân đã được cập nhật.')
+        ngay_sinh = request.form['ngay_sinh']
+        dia_chi = request.form['dia_chi']
+        so_dien_thoai = request.form['so_dien_thoai']
+        quyen = user['quyen']  # Nếu bạn không muốn cho phép người dùng thay đổi quyền
+        
+        User.update_user_info(user_id, ho_ten, email, ngay_sinh, dia_chi, so_dien_thoai, quyen)
+        flash('Cập nhật thông tin thành công')
         return redirect(url_for('main.profile'))
 
     return render_template('profile.html', user=user)
+
 
 @main_bp.route('/change_password', methods=['GET', 'POST'])
 def change_password():

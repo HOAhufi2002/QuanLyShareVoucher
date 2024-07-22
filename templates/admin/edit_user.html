@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+
+{% block title %}Chỉnh sửa tài khoản{% endblock %}
+
+{% block content %}
+<h1>Chỉnh sửa tài khoản</h1>
+<form method="post">
+    <div class="form-group">
+        <label for="hoTen">Họ tên</label>
+        <input type="text" class="form-control" id="hoTen" name="hoTen" value="{{ user['hoTen'] }}" required>
+    </div>
+    <div class="form-group">
+        <label for="ngaySinh">Ngày sinh</label>
+        <input type="date" class="form-control" id="ngaySinh" name="ngaySinh" value="{{ user['ngaySinh'] }}" required>
+    </div>
+    <div class="form-group">
+        <label for="diaChi">Địa chỉ</label>
+        <input type="text" class="form-control" id="diaChi" name="diaChi" value="{{ user['diaChi'] }}" required>
+    </div>
+    <div class="form-group">
+        <label for="soDienThoai">Số điện thoại</label>
+        <input type="text" class="form-control" id="soDienThoai" name="soDienThoai" value="{{ user['soDienThoai'] }}" required>
+    </div>
+    <div class="form-group">
+        <label for="email">Email</label>
+        <input type="email" class="form-control" id="email" name="email" value="{{ user['email'] }}" required>
+    </div>
+    <div class="form-group">
+        <label for="matKhau">Mật khẩu (để trống nếu không thay đổi)</label>
+        <input type="password" class="form-control" id="matKhau" name="matKhau">
+    </div>
+    <div class="form-group">
+        <label for="quyen">Quyền</label>
+        <select class="form-control" id="quyen" name="quyen">
+            <option value="admin" {% if user['quyen'] == 'admin' %}selected{% endif %}>Admin</option>
+            <option value="khachhang" {% if user['quyen'] == 'khachhang' %}selected{% endif %}>Khách hàng</option>
+        </select>
+    </div>
+    <button type="submit" class="btn btn-primary">Lưu</button>
+</form>
+{% endblock %}

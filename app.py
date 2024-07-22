@@ -1,6 +1,7 @@
 from flask import Flask,session,g
 from routes import main_bp, auth_bp, admin_bp, discount_bp, favorite_bp, supplier_bp, notification_bp, search_bp, feedback_bp
 from models.notification import Notification
+from routes.auth import auth_bp
 
 app = Flask(__name__)
 

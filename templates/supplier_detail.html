@@ -1,30 +1,35 @@
 {% extends "base.html" %}
 
-{% block title %}{% endblock %}
+{% block title %}Thông tin nhà cung cấp{% endblock %}
 
 {% block content %}
 <div class="container mt-5">
-    <h1 class="mb-4">Thông tin chi tiết nhà cung cấp</h1>
+    <div class="card">
+        <div class="card-header bg-primary text-white">
+            <h1 class="h3 mb-0">Thông tin chi tiết nhà cung cấp</h1>
+        </div>
+        <div class="card-body">
+            <div class="mb-4">
+                <h2 class="h4">{{ supplier.tenNhaCungCap }}</h2>
+                <p><strong>Địa chỉ:</strong> {{ supplier.diaChi }}</p>
+                <p><strong>Điện thoại:</strong> {{ supplier.soDienThoai }}</p>
+                <p><strong>Email:</strong> {{ supplier.email }}</p>
+            </div>
 
-    <div class="mb-4">
-        <h2>{{ supplier.tenNhaCungCap }}</h2>
-        <p><strong>Địa chỉ:</strong> {{ supplier.diaChi }}</p>
-        <p><strong>Điện thoại:</strong> {{ supplier.soDienThoai }}</p>
-        <p><strong>Email:</strong> {{ supplier.email }}</p>
+            <h3 class="h5">Các chương trình giảm giá</h3>
+            <ul class="list-group list-group-flush">
+                {% for discount in discounts %}
+                    <li class="list-group-item">
+                        <h4 class="h6">{{ discount.tenChuongTrinh }} ({{ discount.phanTramGiamGia }}%)</h4>
+                        <p>{{ discount.moTa }}</p>
+                        <p><strong>Mã giảm giá:</strong> {{ discount.ma }}</p>
+                        <p><strong>Ngày bắt đầu:</strong> {{ discount.ngayBatDau }}</p>
+                        <p><strong>Ngày kết thúc:</strong> {{ discount.ngayKetThuc }}</p>
+                        <a href="{{ url_for('main.chuongtrinh_detail', id=discount.id) }}" class="btn btn-sm btn-outline-info">Chi tiết</a>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
     </div>
-
-    <h3>Các chương trình giảm giá</h3>
-    <ul class="list-group">
-        {% for discount in discounts %}
-            <li class="list-group-item">
-                <h4>{{ discount.tenChuongTrinh }} ({{ discount.phanTramGiamGia }}%)</h4>
-                <p>{{ discount.moTa }}</p>
-                <p><strong>Mã giảm giá:</strong> {{ discount.ma }}</p>
-                <p><strong>Ngày bắt đầu:</strong> {{ discount.ngayBatDau }}</p>
-                <p><strong>Ngày kết thúc:</strong> {{ discount.ngayKetThuc }}</p>
-                <a href="{{ url_for('main.chuongtrinh_detail', id=discount.id) }}" class="btn btn-info btn-sm">Chi tiết</a>
-            </li>
-        {% endfor %}
-    </ul>
 </div>
 {% endblock %}

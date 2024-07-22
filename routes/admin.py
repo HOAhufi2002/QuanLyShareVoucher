@@ -5,6 +5,21 @@ from models.supplier import Supplier
 from models.voucher import Voucher
 from models.notification import Notification
 from datetime import date  # Thêm dòng này để nhập khẩu mô-đun date
+from models.user import User
+@admin_bp.route('/users/add', methods=['GET', 'POST'])
+def add_user():
+    if request.method == 'POST':
+        ho_ten = request.form['hoTen']
+        ngay_sinh = request.form['ngaySinh']
+        dia_chi = request.form['diaChi']
+        so_dien_thoai = request.form['soDienThoai']
+        email = request.form['email']
+        mat_khau = request.form['matKhau']
+        quyen = request.form['quyen']
+        User.add_user(ho_ten, ngay_sinh, dia_chi, so_dien_thoai, email, mat_khau, quyen)
+        return redirect(url_for('admin.manage_users'))
+    return render_template('admin/add_user.html')
+
 # Route quản lý chương trình giảm giá
 @admin_bp.route('/manage_discounts', methods=['GET', 'POST'])
 def manage_discounts():
@@ -23,6 +38,32 @@ def manage_discounts():
     discounts = Discount.get_all_discounts_with_suppliers()
     suppliers = Supplier.get_all_suppliers()
     return render_template('admin/manage_discounts.html', discounts=discounts, suppliers=suppliers)
+@admin_bp.route('/manage_users', methods=['GET'])
+def manage_users():
+    users = User.get_all_users()
+    return render_template('admin/manage_users.html', users=users)
+# Route để sửa tài khoản
+@admin_bp.route('/users/edit/<int:user_id>', methods=['GET', 'POST'])
+def edit_user(user_id):
+    user = User.get_by_id(user_id)
+
+    if request.method == 'POST':
+        ho_ten = request.form['hoTen']
+        ngay_sinh = request.form['ngaySinh']
+        dia_chi = request.form['diaChi']
+        so_dien_thoai = request.form['soDienThoai']
+        email = request.form['email']
+        mat_khau = request.form['matKhau']
+        quyen = request.form['quyen']
+        User.update_user(user_id, ho_ten, ngay_sinh, dia_chi, so_dien_thoai, email, mat_khau, quyen)
+        return redirect(url_for('admin.manage_users'))
+
+    return render_template('admin/edit_user.html', user=user)
+
+@admin_bp.route('/users/delete/<int:user_id>', methods=['POST'])
+def delete_user(user_id):
+    User.update_isdel(user_id, True)
+    return redirect(url_for('admin.manage_users'))
 
 # Route chỉnh sửa chương trình giảm giá
 @admin_bp.route('/edit_discount/<int:discount_id>', methods=['GET', 'POST'])

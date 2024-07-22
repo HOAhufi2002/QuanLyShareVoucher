@@ -63,7 +63,6 @@
 </head>
 
 <body>
-    <!-- ***** Preloader Start ***** -->
     <div id="js-preloader" class="js-preloader">
         <div class="preloader-inner">
             <span class="dot"></span>
@@ -106,15 +105,24 @@
                             <li><a href="{{ url_for('main.home') }}" class="active">Trang chủ</a></li>
                             <li><a href="{{ url_for('discount.discount_list') }}">Mã Giảm Giá</a></li>
                             <li><a href="{{ url_for('supplier.supplier_list') }}">Nhà cung cấp</a></li>
-                            <li>
-                                <a  href="{{ url_for('notification.notifications') }}" style="position: relative;">
-                                    <i class="fas fa-bell"></i>
-                                    {% if g.notification_count > 0 %}
-                                    <span class="badge badge-danger" style="position: absolute; top: 0; right: 0; font-size: 0.75em;">{{ g.notification_count }}</span>
-                                {% endif %}
+
+
+                     
+                            {% if session['user_role'] == 'admin' %}
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                    Quản trị
+                                    <span class="caret"></span>
                                 </a>
+                                <ul class="dropdown-menu">
+                                    <li class="nav-item"><a class="nav-link" href="{{ url_for('admin.manage_discounts') }}">Quản lý giảm giá</a></li>
+                                    <li class="nav-item"><a class="nav-link" href="{{ url_for('admin.manage_vouchers') }}">Quản lý mã giảm giá</a></li>
+                                    <li class="nav-item"><a class="nav-link" href="{{ url_for('admin.manage_suppliers') }}">Quản lý nhà cung cấp</a></li>
+                                    <li class="nav-item"><a class="nav-link" href="{{ url_for('admin.manage_users') }}">Quản lý tài khoản</a></li> <!-- Dòng này được thêm -->
+
+                                </ul>
                             </li>
-                            
+                        {% endif %}
                             {% if 'user_id' in session %}
                                 <li class="dropdown">
                                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
@@ -123,30 +131,23 @@
                                     </a>
                                     <ul class="dropdown-menu">
                                         <li><a href="{{ url_for('main.profile') }}">Thông tin tài khoản</a></li>
-                                        
                                         <li><a href="{{ url_for('favorite.favorite_list') }}">Danh sách yêu thích</a></li>
-                                
-                                        
                                         <li><a href="{{ url_for('auth.logout') }}">Đăng xuất</a></li>
                                     </ul>
                                 </li>
-                                {% if session['user_role'] == 'admin' %}
-                                    <li class="dropdown">
-                                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                                            Quản trị
-                                            <span class="caret"></span>
-                                        </a>
-                                        <ul class="dropdown-menu">
-                                            <li class="nav-item"><a class="nav-link" href="{{ url_for('admin.manage_discounts') }}">Quản lý giảm giá</a></li>
-                                            <li class="nav-item"><a class="nav-link" href="{{ url_for('admin.manage_vouchers') }}">Quản lý mã giảm giá</a></li>
-                                            <li class="nav-item"><a class="nav-link" href="{{ url_for('admin.manage_suppliers') }}">Quản lý nhà cung cấp</a></li>
-
-                                        </ul>
-                                    </li>
-                                {% endif %}
+                 
                             {% else %}
                                 <li><a href="{{ url_for('auth.login') }}">Đăng nhập</a></li>
+                                <li><a href="{{ url_for('auth.register') }}">Đăng ký</a></li>
                             {% endif %}
+                            <li>
+                                <a href="{{ url_for('notification.notifications') }}" style="position: relative;">
+                                    <i class="fas fa-bell"></i>
+                                    {% if g.notification_count > 0 %}
+                                    <span class="badge badge-danger" style="position: absolute; top: 0; right: 0; font-size: 0.75em;">{{ g.notification_count }}</span>
+                                    {% endif %}
+                                </a>
+                            </li>
                         </ul>
                         
                         <a class='menu-trigger'>
@@ -183,32 +184,7 @@
     </div>
     <!-- ***** Main Content End ***** -->
 
-    <!-- *** Subscribe *** -->
-    <div class="subscribe">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-4">
-                    <h4>Đăng ký nhận tin:</h4>
-                </div>
-                <div class="col-lg-8">
-                    <form id="subscribe" action="" method="get">
-                        <div class="row">
-                            <div class="col-lg-9">
-                                <fieldset>
-                                    <input name="email" type="text" id="email" pattern="[^ @]*@[^ @]*" placeholder="Địa chỉ Email của bạn" required="">
-                                </fieldset>
-                            </div>
-                            <div class="col-lg-3">
-                                <fieldset>
-                                    <button type="submit" id="form-submit" class="main-dark-button">Gửi</button>
-                                </fieldset>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
+
 
     <!-- *** Footer *** -->
     <footer>
