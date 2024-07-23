@@ -10,9 +10,7 @@
         {% for supplier in suppliers %}
             <li class="list-group-item">
                 <a href="{{ url_for('supplier.supplier_detail', supplier_id=supplier.id) }}" class="h5">{{ supplier.tenNhaCungCap }}</a>
-                <p><strong>Địa chỉ:</strong> {{ supplier.diaChi }}</p>
-                <p><strong>Điện thoại:</strong> {{ supplier.soDienThoai }}</p>
-                <p><strong>Email:</strong> {{ supplier.email }}</p>
+
             </li>
         {% endfor %}
     </ul>

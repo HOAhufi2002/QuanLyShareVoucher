@@ -30,9 +30,7 @@
         {% for supplier in suppliers %}
             <li class="list-group-item mb-2">
                 <h3>{{ supplier.tenNhaCungCap }}</h3>
-                <p>Địa chỉ: {{ supplier.diaChi }}</p>
-                <p>Số điện thoại: {{ supplier.soDienThoai }}</p>
-                <p>Email: {{ supplier.email }}</p>
+             
                 <a href="{{ url_for('admin.edit_supplier', supplier_id=supplier.id) }}" class="btn btn-warning btn-sm">Chỉnh sửa</a>
                 <form method="post" action="{{ url_for('admin.delete_supplier', supplier_id=supplier.id) }}" style="display:inline;">
                     <button type="submit" class="btn btn-danger btn-sm">Xóa</button>

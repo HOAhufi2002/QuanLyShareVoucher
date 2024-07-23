@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block title %}Quản lý sản phẩm{% endblock %}
+{% block content %}
+<h2>Quản lý sản phẩm</h2>
+<a href="{{ url_for('admin.add_product') }}" class="btn btn-primary">Thêm sản phẩm</a>
+<table class="table">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Tên sản phẩm</th>
+            <th>Giá</th>
+            <th>Nhà cung cấp</th>
+            <th>Mã giảm giá</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for product in products %}
+        <tr>
+            <td>{{ product[0] }}</td>
+            <td>{{ product[1] }}</td>
+            <td>{{ product[2] }}</td>
+            <td>{{ product[3] }}</td>
+            <td>{{ product[4] }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

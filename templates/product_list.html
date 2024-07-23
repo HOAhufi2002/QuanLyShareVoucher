@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block title %}Danh sách sản phẩm{% endblock %}
+{% block content %}
+<h2>Danh sách sản phẩm</h2>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Tên sản phẩm</th>
+            <th>Giá</th>
+            <th>Nhà cung cấp</th>
+            <th>Mã giảm giá</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for product in products %}
+        <tr>
+            <td>{{ product[1] }}</td>
+            <td>{{ product[2] }}</td>
+            <td>{{ product[3] }}</td>
+            <td>{{ product[4] }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

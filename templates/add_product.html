@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block title %}Thêm sản phẩm{% endblock %}
+{% block content %}
+<h2>Thêm sản phẩm</h2>
+<form method="post">
+    <div class="form-group">
+        <label for="tensanpham">Tên sản phẩm</label>
+        <input type="text" class="form-control" id="tensanpham" name="tensanpham" required>
+    </div>
+    <div class="form-group">
+        <label for="gia">Giá</label>
+        <input type="number" class="form-control" id="gia" name="gia" required>
+    </div>
+    <div class="form-group">
+        <label for="idNhaCungCap">Nhà cung cấp</label>
+        <select class="form-control" id="idNhaCungCap" name="idNhaCungCap" required>
+            {% for supplier in suppliers %}
+            <option value="{{ supplier[0] }}">{{ supplier[1] }}</option>
+            {% endfor %}
+        </select>
+    </div>
+    <button type="submit" class="btn btn-primary">Thêm sản phẩm</button>
+</form>
+{% endblock %}

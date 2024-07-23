@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-5">
+    <h1 class="mb-4">Quản lý sản phẩm</h1>
+    <form method="POST" action="{{ url_for('supplier.manage_products') }}" class="mb-4">
+        <div class="form-group">
+            <label for="ten_san_pham">Tên sản phẩm:</label>
+            <input type="text" id="ten_san_pham" name="ten_san_pham" class="form-control" required>
+        </div>
+        <div class="form-group">
+            <label for="gia">Giá:</label>
+            <input type="number" id="gia" name="gia" class="form-control" required>
+        </div>
+        <button type="submit" class="btn btn-primary">Thêm sản phẩm</button>
+    </form>
+
+    <table class="table table-bordered">
+        <thead class="thead-dark">
+            <tr>
+                <th>Tên sản phẩm</th>
+                <th>Giá</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for product in products %}
+            <tr>
+                <td>{{ product.tenSanPham }}</td>
+                <td>{{ product.gia }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

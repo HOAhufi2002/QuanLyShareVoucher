@@ -16,19 +16,19 @@ class Discount:
         conn = get_db_connection()
         cursor = conn.cursor()
         cursor.execute('''
-            SELECT 
-                ChuongTrinhGiamGia.id, 
-                ChuongTrinhGiamGia.tenChuongTrinh, 
-                ChuongTrinhGiamGia.moTa, 
-                ChuongTrinhGiamGia.ngayBatDau, 
-                ChuongTrinhGiamGia.ngayKetThuc, 
-                NhaCungCap.tenNhaCungCap
-            FROM 
-                ChuongTrinhGiamGia
-            JOIN 
-                NhaCungCap ON ChuongTrinhGiamGia.idNhaCungCap = NhaCungCap.id
-            WHERE 
-                ChuongTrinhGiamGia.isDel = 0
+                SELECT 
+                    ChuongTrinhGiamGia.id, 
+                    ChuongTrinhGiamGia.tenChuongTrinh, 
+                    ChuongTrinhGiamGia.moTa, 
+                    ChuongTrinhGiamGia.ngayBatDau, 
+                    ChuongTrinhGiamGia.ngayKetThuc, 
+                    NhaCungCap.tenNhaCungCap
+                FROM 
+                    ChuongTrinhGiamGia
+                JOIN 
+                    NhaCungCap ON ChuongTrinhGiamGia.idNhaCungCap = NhaCungCap.id
+                WHERE 
+                    ChuongTrinhGiamGia.isDel = 0
         ''')
         discounts = cursor.fetchall()
         conn.close()
@@ -157,6 +157,43 @@ class Discount:
             params.append(discount_percent)
 
         cursor.execute(query, params)
+        discounts = cursor.fetchall()
+        conn.close()
+        return discounts
+    @staticmethod
+    def get_discount_by_code(discount_code):
+        conn = get_db_connection()
+        cursor = conn.cursor()
+        cursor.execute('''
+            SELECT mg.*, ct.idnhacungcap
+            FROM MaGiamGia mg
+            JOIN ChuongTrinhGiamGia ct ON mg.idChuongTrinhGiamGia = ct.id
+            WHERE mg.ma = ?
+        ''', (discount_code,))
+        discount = cursor.fetchone()
+        conn.close()
+        return discount
+    @staticmethod
+    def nhacungcap_add_discount(ma, phan_tram_giam_gia, ngay_het_han, id_chuong_trinh_giam_gia):
+        conn = get_db_connection()
+        cursor = conn.cursor()
+        cursor.execute('''
+            INSERT INTO MaGiamGia (ma, phanTramGiamGia, ngayHetHan, idChuongTrinhGiamGia)
+            VALUES (?, ?, ?, ?)
+        ''', (ma, phan_tram_giam_gia, ngay_het_han, id_chuong_trinh_giam_gia))
+        conn.commit()
+        conn.close()
+
+    @staticmethod
+    def nhacungcap_get_discounts_by_supplier(id_nha_cung_cap):
+        conn = get_db_connection()
+        cursor = conn.cursor()
+        cursor.execute('''
+            SELECT mg.*, ctg.tenChuongTrinh, ctg.moTa
+            FROM MaGiamGia mg
+            JOIN ChuongTrinhGiamGia ctg ON mg.idChuongTrinhGiamGia = ctg.id
+            WHERE ctg.idNhaCungCap = ? AND mg.isDel = 0
+        ''', (id_nha_cung_cap,))
         discounts = cursor.fetchall()
         conn.close()
         return discounts

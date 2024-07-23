@@ -6,6 +6,8 @@ from models.voucher import Voucher
 from models.notification import Notification
 from datetime import date  # Thêm dòng này để nhập khẩu mô-đun date
 from models.user import User
+from models.product import Product
+
 @admin_bp.route('/users/add', methods=['GET', 'POST'])
 def add_user():
     if request.method == 'POST':
@@ -191,3 +193,30 @@ def delete_supplier(supplier_id):
     Supplier.delete_supplier(supplier_id)
     flash('Nhà cung cấp đã được xóa.')
     return redirect(url_for('admin.manage_suppliers'))
+
+@admin_bp.route('/manage_products')
+def manage_products():
+    if session.get('user_role') != 'admin':
+        flash('Bạn không có quyền truy cập vào trang này.')
+        return redirect(url_for('main.home'))
+
+    products = Product.get_all()
+    return render_template('admin/manage_products.html', products=products)
+
+@admin_bp.route('/manage_products/add', methods=['GET', 'POST'])
+def add_product():
+    if session.get('user_role') != 'admin':
+        flash('Bạn không có quyền truy cập vào trang này.')
+        return redirect(url_for('main.home'))
+
+    if request.method == 'POST':
+        tensanpham = request.form['tensanpham']
+        gia = request.form['gia']
+        idNhaCungCap = request.form['idNhaCungCap']
+
+        Product.add_product(tensanpham, gia, idNhaCungCap)
+        flash('Sản phẩm đã được thêm thành công.')
+        return redirect(url_for('admin.manage_products'))
+
+    suppliers = Supplier.get_all_suppliers()
+    return render_template('admin/add_product.html', suppliers=suppliers)

@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+
+{% block title %}Các sản phẩm đã mua{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h1 class="h3 mb-4 text-center text-primary">Các sản phẩm đã mua</h1>
+    {% if orders %}
+        <div class="card shadow-sm">
+            <div class="card-header bg-primary text-white">
+                <h2 class="h5 mb-0">Lịch sử mua hàng</h2>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead >
+                            <tr>
+                                <th scope="col">Tên sản phẩm</th>
+                                <th scope="col">Giá</th>
+                                <th scope="col">Ngày đặt hàng</th>
+                                <th scope="col">Địa chỉ giao hàng</th>
+                                <th scope="col">Tổng tiền</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for order in orders %}
+                                <tr>
+                                    <td>{{ order.tenSanPham }}</td>
+                                    <td>{{ order.gia }}</td>
+                                    <td>{{ order.ngayDatHang }}</td>
+                                    <td>{{ order.diaChiGiaoHang }}</td>
+                                    <td>{{ order.tongTien }}</td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    {% else %}
+        <div class="alert alert-info text-center mt-4" role="alert">
+            Bạn chưa mua sản phẩm nào.
+        </div>
+    {% endif %}
+</div>
+{% endblock %}

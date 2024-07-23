@@ -2,6 +2,7 @@ from flask import Flask,session,g
 from routes import main_bp, auth_bp, admin_bp, discount_bp, favorite_bp, supplier_bp, notification_bp, search_bp, feedback_bp
 from models.notification import Notification
 from routes.auth import auth_bp
+from routes.order import order_bp
 
 app = Flask(__name__)
 
@@ -17,6 +18,7 @@ app.register_blueprint(supplier_bp)
 app.register_blueprint(notification_bp)
 app.register_blueprint(search_bp)
 app.register_blueprint(feedback_bp)
+app.register_blueprint(order_bp, url_prefix='/order')
 
 @app.before_request
 def before_request():

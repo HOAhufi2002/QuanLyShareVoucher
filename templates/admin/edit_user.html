@@ -34,6 +34,7 @@
         <select class="form-control" id="quyen" name="quyen">
             <option value="admin" {% if user['quyen'] == 'admin' %}selected{% endif %}>Admin</option>
             <option value="khachhang" {% if user['quyen'] == 'khachhang' %}selected{% endif %}>Khách hàng</option>
+            <option value="nhacungcap" {% if user['quyen'] == 'nhacungcap' %}selected{% endif %}>Nha cung cap</option>
         </select>
     </div>
     <button type="submit" class="btn btn-primary">Lưu</button>

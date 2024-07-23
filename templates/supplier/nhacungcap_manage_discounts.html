@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+
+{% block title %}Quản lý Giảm giá{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="card">
+        <div class="card-header bg-primary text-white">
+            <h1 class="h3 mb-0">Quản lý Giảm giá</h1>
+        </div>
+        <div class="card-body">
+            <form method="post">
+                <div class="form-group">
+                    <label for="ma">Mã giảm giá</label>
+                    <input type="text" class="form-control" id="ma" name="ma" required>
+                </div>
+                <div class="form-group">
+                    <label for="phan_tram_giam_gia">Phần trăm giảm giá</label>
+                    <input type="number" class="form-control" id="phan_tram_giam_gia" name="phan_tram_giam_gia" required>
+                </div>
+                <div class="form-group">
+                    <label for="ngay_het_han">Ngày hết hạn</label>
+                    <input type="date" class="form-control" id="ngay_het_han" name="ngay_het_han" required>
+                </div>
+                <div class="form-group">
+                    <label for="id_chuong_trinh_giam_gia">Chương trình giảm giá</label>
+                    <select class="form-control" id="id_chuong_trinh_giam_gia" name="id_chuong_trinh_giam_gia">
+                        {% for program in programs %}
+                            <option value="{{ program.id }}">{{ program.tenChuongTrinh }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <button type="submit" class="btn btn-primary">Thêm Giảm giá</button>
+            </form>
+            <hr>
+            <h3>Danh sách Giảm giá</h3>
+            <ul class="list-group">
+                {% for discount in discounts %}
+                    <li class="list-group-item">
+                        <h4>{{ discount.tenChuongTrinh }} - {{ discount.phanTramGiamGia }}%</h4>
+                        <p>{{ discount.moTa }}</p>
+                        <p><strong>Mã:</strong> {{ discount.ma }}</p>
+                        <p><strong>Ngày hết hạn:</strong> {{ discount.ngayHetHan }}</p>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+</div>
+{% endblock %}

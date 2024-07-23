@@ -7,29 +7,51 @@
     <h1 class="mt-4 mb-4">Thông tin cá nhân</h1>
     <form method="post">
         <div class="form-group">
-            <label for="ho_ten">Họ và tên:</label>
-            <input type="text" class="form-control" name="ho_ten" id="ho_ten" value="{{ user.hoTen }}" required>
+            <label for="hoTen">Họ và tên:</label>
+            <input type="text" class="form-control" name="hoTen" id="hoTen" value="{{ user.hoTen }}" required>
         </div>
         <div class="form-group">
-            <label for="ngay_sinh">Ngày sinh:</label>
-            <input type="date" class="form-control" name="ngay_sinh" id="ngay_sinh" value="{{ user.ngaySinh }}" required>
+            <label for="ngaySinh">Ngày sinh:</label>
+            <input type="date" class="form-control" name="ngaySinh" id="ngaySinh" value="{{ user.ngaySinh }}" required>
         </div>
         <div class="form-group">
-            <label for="dia_chi">Địa chỉ:</label>
-            <input type="text" class="form-control" name="dia_chi" id="dia_chi" value="{{ user.diaChi }}" required>
+            <label for="diaChi">Địa chỉ:</label>
+            <input type="text" class="form-control" name="diaChi" id="diaChi" value="{{ user.diaChi }}" required>
         </div>
         <div class="form-group">
-            <label for="so_dien_thoai">Số điện thoại:</label>
-            <input type="text" class="form-control" name="so_dien_thoai" id="so_dien_thoai" value="{{ user.soDienThoai }}" required>
+            <label for="soDienThoai">Số điện thoại:</label>
+            <input type="text" class="form-control" name="soDienThoai" id="soDienThoai" value="{{ user.soDienThoai }}" required>
         </div>
         <div class="form-group">
             <label for="email">Email:</label>
             <input type="email" class="form-control" name="email" id="email" value="{{ user.email }}" required>
         </div>
+
+
+
         <div class="form-group">
             <button type="submit" class="btn btn-primary">Cập nhật</button>
         </div>
     </form>
     <p><a href="{{ url_for('main.change_password') }}" class="btn btn-link">Đổi mật khẩu</a></p>
 </div>
+{% if user.quyen == 'nhacungcap' and supplier %}
+<h2 class="mt-5">Thông tin nhà cung cấp</h2>
+<div class="form-group">
+    <label for="tenNhaCungCap">Tên nhà cung cấp:</label>
+    <input type="text" class="form-control" name="tenNhaCungCap" id="tenNhaCungCap" value="{{ supplier.tenNhaCungCap }}" required>
+</div>
+<div class="form-group">
+    <label for="diaChiNCC">Địa chỉ nhà cung cấp:</label>
+    <input type="text" class="form-control" name="diaChiNCC" id="diaChiNCC" value="{{ supplier.diaChi }}" required>
+</div>
+<div class="form-group">
+    <label for="soDienThoaiNCC">Số điện thoại nhà cung cấp:</label>
+    <input type="text" class="form-control" name="soDienThoaiNCC" id="soDienThoaiNCC" value="{{ supplier.soDienThoai }}" required>
+</div>
+<div class="form-group">
+    <label for="emailNCC">Email nhà cung cấp:</label>
+    <input type="email" class="form-control" name="emailNCC" id="emailNCC" value="{{ supplier.email }}" required>
+</div>
+{% endif %}
 {% endblock %}

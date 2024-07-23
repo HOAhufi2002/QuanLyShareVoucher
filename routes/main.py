@@ -7,6 +7,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from models.notification import Notification
 from models.feedback import Feedback  # Giả sử bạn có model Feedback để lấy dữ liệu phản hồi
 from models.rating import Rating      # Giả sử bạn có model Rating để lấy dữ liệu đánh giá
+from models.supplier import Supplier
 import json
 @main_bp.route('/')
 def home():
@@ -52,20 +53,35 @@ def profile():
         return redirect(url_for('auth.login'))
 
     user = User.get_by_id(user_id)
-    
+    supplier = None
+    if user['quyen'] == 'nhacungcap':
+        supplier = Supplier.get_by_user_id(user_id)
+
     if request.method == 'POST':
-        ho_ten = request.form['ho_ten']
+        hoTen = request.form['hoTen']
         email = request.form['email']
-        ngay_sinh = request.form['ngay_sinh']
-        dia_chi = request.form['dia_chi']
-        so_dien_thoai = request.form['so_dien_thoai']
-        quyen = user['quyen']  # Nếu bạn không muốn cho phép người dùng thay đổi quyền
+        ngaySinh = request.form['ngaySinh']
+        diaChi = request.form['diaChi']
+        soDienThoai = request.form['soDienThoai']
+        quyen = user['quyen']  # Không cho phép người dùng thay đổi quyền
+
+        User.update_user_info(user_id, hoTen, email, ngaySinh, diaChi, soDienThoai, quyen)
         
-        User.update_user_info(user_id, ho_ten, email, ngay_sinh, dia_chi, so_dien_thoai, quyen)
+        if supplier:
+            tenNhaCungCap = request.form['tenNhaCungCap']
+            diaChiNCC = request.form['diaChi']
+            soDienThoaiNCC = request.form['soDienThoai']
+            emailNCC = request.form['email']
+            Supplier.update_supplier_info(supplier['id'], tenNhaCungCap, diaChiNCC, soDienThoaiNCC, emailNCC)
+        
         flash('Cập nhật thông tin thành công')
         return redirect(url_for('main.profile'))
 
-    return render_template('profile.html', user=user)
+    return render_template('profile.html', user=user, supplier=supplier)
+
+
+
+
 
 
 @main_bp.route('/change_password', methods=['GET', 'POST'])
