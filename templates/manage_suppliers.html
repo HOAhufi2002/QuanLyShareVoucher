@@ -1,0 +1,82 @@
+{% extends "base.html" %}
+
+{% block title %}Quản lý nhà cung cấp{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h1 class="h3 mb-4">Quản lý nhà cung cấp</h1>
+    <form method="POST" action="{{ url_for('admin.add_supplier') }}">
+        <h2 class="h5">Thêm nhà cung cấp mới</h2>
+        <div class="form-group">
+            <label for="ten_nha_cung_cap">Tên nhà cung cấp:</label>
+            <input type="text" class="form-control" id="ten_nha_cung_cap" name="ten_nha_cung_cap" required>
+        </div>
+        <div class="form-group">
+            <label for="dia_chi">Địa chỉ:</label>
+            <input type="text" class="form-control" id="dia_chi" name="dia_chi" required>
+        </div>
+        <div class="form-group">
+            <label for="so_dien_thoai">Số điện thoại:</label>
+            <input type="text" class="form-control" id="so_dien_thoai" name="so_dien_thoai" required>
+        </div>
+        <div class="form-group">
+            <label for="email">Email:</label>
+            <input type="email" class="form-control" id="email" name="email" required>
+        </div>
+        <div class="form-group">
+            <label for="ho_ten">Họ và tên người dùng:</label>
+            <input type="text" class="form-control" id="ho_ten" name="ho_ten" required>
+        </div>
+        <div class="form-group">
+            <label for="ngay_sinh">Ngày sinh:</label>
+            <input type="date" class="form-control" id="ngay_sinh" name="ngay_sinh" required>
+        </div>
+        <div class="form-group">
+            <label for="dia_chi_nguoi_dung">Địa chỉ người dùng:</label>
+            <input type="text" class="form-control" id="dia_chi_nguoi_dung" name="dia_chi_nguoi_dung" required>
+        </div>
+        <div class="form-group">
+            <label for="so_dien_thoai_nguoi_dung">Số điện thoại người dùng:</label>
+            <input type="text" class="form-control" id="so_dien_thoai_nguoi_dung" name="so_dien_thoai_nguoi_dung" required>
+        </div>
+        <div class="form-group">
+            <label for="email_nguoi_dung">Email người dùng:</label>
+            <input type="email" class="form-control" id="email_nguoi_dung" name="email_nguoi_dung" required>
+        </div>
+        <div class="form-group">
+            <label for="mat_khau">Mật khẩu:</label>
+            <input type="password" class="form-control" id="mat_khau" name="mat_khau" required>
+        </div>
+        <button type="submit" class="btn btn-primary">Thêm nhà cung cấp</button>
+    </form>
+
+    <h2 class="h5 mt-5">Danh sách nhà cung cấp</h2>
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Tên nhà cung cấp</th>
+                <th>Địa chỉ</th>
+                <th>Số điện thoại</th>
+                <th>Email</th>
+                <th>Hành động</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for supplier in suppliers %}
+            <tr>
+                <td>{{ supplier.tenNhaCungCap }}</td>
+                <td>{{ supplier.diaChi }}</td>
+                <td>{{ supplier.soDienThoai }}</td>
+                <td>{{ supplier.email }}</td>
+                <td>
+                    <a href="{{ url_for('admin.edit_supplier', supplier_id=supplier.id) }}" class="btn btn-warning btn-sm">Sửa</a>
+                    <form method="POST" action="{{ url_for('admin.delete_supplier', supplier_id=supplier.id) }}" style="display:inline;">
+                        <button type="submit" class="btn btn-danger btn-sm">Xóa</button>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

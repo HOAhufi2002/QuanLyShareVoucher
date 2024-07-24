@@ -122,3 +122,13 @@ class Supplier:
         supplier = cursor.fetchone()
         conn.close()
         return supplier
+    @staticmethod
+    def create_supplier(ten_nha_cung_cap, dia_chi, so_dien_thoai, email, id_nguoi_dung):
+        conn = get_db_connection()
+        cursor = conn.cursor()
+        cursor.execute('''
+            INSERT INTO NhaCungCap (tenNhaCungCap, diaChi, soDienThoai, email, isDel, idNguoiDung)
+            VALUES (?, ?, ?, ?, 0, ?)
+        ''', (ten_nha_cung_cap, dia_chi, so_dien_thoai, email, id_nguoi_dung))
+        conn.commit()
+        conn.close()

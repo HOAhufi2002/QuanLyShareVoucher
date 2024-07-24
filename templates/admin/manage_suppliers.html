@@ -3,40 +3,49 @@
 {% block title %}Quản lý nhà cung cấp{% endblock %}
 
 {% block content %}
-<div class="container">
-    <h1 class="mt-4 mb-4">Quản lý nhà cung cấp</h1>
+<div class="container mt-5">
+    <h1 class="h3 mb-4 text-center">Quản lý nhà cung cấp</h1>
+    <div class="d-flex justify-content-between mb-4">
+        <h2 class="h5">Danh sách nhà cung cấp</h2>
+        <a href="{{ url_for('admin.add_supplier') }}" class="btn btn-primary">
+            <i class="fas fa-plus"></i> Thêm nhà cung cấp mới
+        </a>
+    </div>
 
-    <form method="post" class="mb-4">
-        <div class="form-group">
-            <label for="ten_nha_cung_cap">Tên nhà cung cấp:</label>
-            <input type="text" name="ten_nha_cung_cap" id="ten_nha_cung_cap" class="form-control" required>
-        </div>
-        <div class="form-group">
-            <label for="dia_chi">Địa chỉ:</label>
-            <input type="text" name="dia_chi" id="dia_chi" class="form-control" required>
-        </div>
-        <div class="form-group">
-            <label for="so_dien_thoai">Số điện thoại:</label>
-            <input type="text" name="so_dien_thoai" id="so_dien_thoai" class="form-control" required>
-        </div>
-        <div class="form-group">
-            <label for="email">Email:</label>
-            <input type="email" name="email" id="email" class="form-control" required>
-        </div>
-        <button type="submit" class="btn btn-primary">Thêm nhà cung cấp</button>
-    </form>
-
-    <ul class="list-group">
-        {% for supplier in suppliers %}
-            <li class="list-group-item mb-2">
-                <h3>{{ supplier.tenNhaCungCap }}</h3>
-             
-                <a href="{{ url_for('admin.edit_supplier', supplier_id=supplier.id) }}" class="btn btn-warning btn-sm">Chỉnh sửa</a>
-                <form method="post" action="{{ url_for('admin.delete_supplier', supplier_id=supplier.id) }}" style="display:inline;">
-                    <button type="submit" class="btn btn-danger btn-sm">Xóa</button>
-                </form>
-            </li>
-        {% endfor %}
-    </ul>
+    <div class="table-responsive">
+        <table class="table table-bordered table-hover">
+            <thead class="thead-dark">
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Tên nhà cung cấp</th>
+                    <th scope="col">Địa chỉ</th>
+                    <th scope="col">Số điện thoại</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">Hành động</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for supplier in suppliers %}
+                <tr>
+                    <th scope="row">{{ loop.index }}</th>
+                    <td>{{ supplier.tenNhaCungCap }}</td>
+                    <td>{{ supplier.diaChi }}</td>
+                    <td>{{ supplier.soDienThoai }}</td>
+                    <td>{{ supplier.email }}</td>
+                    <td>
+                        <a href="{{ url_for('admin.edit_supplier', supplier_id=supplier.id) }}" class="btn btn-warning btn-sm">
+                            <i class="fas fa-edit"></i> Sửa
+                        </a>
+                        <form method="POST" action="{{ url_for('admin.delete_supplier', supplier_id=supplier.id) }}" style="display:inline;" onsubmit="return confirm('Bạn có chắc chắn muốn xóa nhà cung cấp này không?');">
+                            <button type="submit" class="btn btn-danger btn-sm">
+                                <i class="fas fa-trash-alt"></i> Xóa
+                            </button>
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
 </div>
 {% endblock %}

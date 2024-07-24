@@ -7,7 +7,9 @@ from models.notification import Notification
 from datetime import date  # Thêm dòng này để nhập khẩu mô-đun date
 from models.user import User
 from models.product import Product
-
+from models import NhaCungCap
+from werkzeug.security import generate_password_hash
+import hashlib
 @admin_bp.route('/users/add', methods=['GET', 'POST'])
 def add_user():
     if request.method == 'POST':
@@ -151,48 +153,76 @@ def delete_voucher(voucher_id):
     Voucher.delete_voucher(voucher_id)
     flash('Mã giảm giá đã được xóa.')
     return redirect(url_for('admin.manage_vouchers'))
-@admin_bp.route('/manage_suppliers', methods=['GET', 'POST'])
+@admin_bp.route('/manage_suppliers', methods=['GET'])
 def manage_suppliers():
-    if 'user_id' not in session or session['user_role'] != 'admin':
-        return redirect(url_for('auth.login'))
+    suppliers = NhaCungCap.get_all_suppliers()
+    return render_template('admin/manage_suppliers.html', suppliers=suppliers)
 
+@admin_bp.route('/add_supplier', methods=['GET', 'POST'])
+def add_supplier():
     if request.method == 'POST':
+        # Thông tin nhà cung cấp
         ten_nha_cung_cap = request.form['ten_nha_cung_cap']
         dia_chi = request.form['dia_chi']
         so_dien_thoai = request.form['so_dien_thoai']
         email = request.form['email']
-        Supplier.add_supplier(ten_nha_cung_cap, dia_chi, so_dien_thoai, email)
-        flash('Nhà cung cấp đã được thêm.')
 
-    suppliers = Supplier.get_all_suppliers()
-    return render_template('admin/manage_suppliers.html', suppliers=suppliers)
+        # Thông tin người dùng
+        ho_ten = request.form['ho_ten']
+        ngay_sinh = request.form['ngay_sinh']
+        dia_chi_nguoi_dung = request.form['dia_chi_nguoi_dung']
+        so_dien_thoai_nguoi_dung = request.form['so_dien_thoai_nguoi_dung']
+        email_nguoi_dung = request.form['email_nguoi_dung']
+        mat_khau = request.form['mat_khau']
+
+        # Thêm người dùng mới
+        hashed_password = hashlib.sha256(mat_khau.encode()).hexdigest()
+        new_user_id = User.insert_user(ho_ten, ngay_sinh, dia_chi_nguoi_dung, so_dien_thoai_nguoi_dung, email_nguoi_dung, hashed_password, 'nhacungcap', False)
+
+        # Kiểm tra nếu new_user_id không null
+        if new_user_id is None:
+            flash('Có lỗi xảy ra khi thêm người dùng mới.')
+            return redirect(url_for('admin.manage_suppliers'))
+
+        # Thêm nhà cung cấp mới với idNguoiDung lấy từ user vừa thêm
+        NhaCungCap.insert_supplier(ten_nha_cung_cap, dia_chi, so_dien_thoai, email, False, new_user_id)
+        flash('Nhà cung cấp mới đã được thêm thành công!')
+        return redirect(url_for('admin.manage_suppliers'))
+
+    return render_template('admin/add_supplier.html')
 
 @admin_bp.route('/edit_supplier/<int:supplier_id>', methods=['GET', 'POST'])
 def edit_supplier(supplier_id):
-    if 'user_id' not in session or session['user_role'] != 'admin':
-        return redirect(url_for('auth.login'))
-
-    supplier = Supplier.get_supplier_by_id(supplier_id)
+    supplier = NhaCungCap.get_supplier_by_id(supplier_id)
+    user = User.get_by_id(supplier.idNguoiDung)
 
     if request.method == 'POST':
         ten_nha_cung_cap = request.form['ten_nha_cung_cap']
         dia_chi = request.form['dia_chi']
         so_dien_thoai = request.form['so_dien_thoai']
         email = request.form['email']
-        Supplier.update_supplier(supplier_id, ten_nha_cung_cap, dia_chi, so_dien_thoai, email)
-        flash('Nhà cung cấp đã được cập nhật.')
+
+        NhaCungCap.update_supplier(supplier_id, ten_nha_cung_cap, dia_chi, so_dien_thoai, email)
+        
+        ho_ten = request.form['ho_ten']
+        ngay_sinh = request.form['ngay_sinh']
+        dia_chi_nguoi_dung = request.form['dia_chi_nguoi_dung']
+        so_dien_thoai_nguoi_dung = request.form['so_dien_thoai_nguoi_dung']
+        email_nguoi_dung = request.form['email_nguoi_dung']
+
+        User.update_user_info(user.id, ho_ten, email_nguoi_dung, ngay_sinh, dia_chi_nguoi_dung, so_dien_thoai_nguoi_dung, 'nhacungcap')
+        
+        flash('Thông tin nhà cung cấp đã được cập nhật!')
         return redirect(url_for('admin.manage_suppliers'))
 
-    return render_template('admin/edit_supplier.html', supplier=supplier)
+    return render_template('admin/edit_supplier.html', supplier=supplier, user=user)
 
 @admin_bp.route('/delete_supplier/<int:supplier_id>', methods=['POST'])
 def delete_supplier(supplier_id):
-    if 'user_id' not in session or session['user_role'] != 'admin':
-        return redirect(url_for('auth.login'))
-
-    Supplier.delete_supplier(supplier_id)
-    flash('Nhà cung cấp đã được xóa.')
+    NhaCungCap.delete_supplier(supplier_id)
+    flash('Nhà cung cấp đã được xóa!')
     return redirect(url_for('admin.manage_suppliers'))
+
 
 @admin_bp.route('/manage_products')
 def manage_products():

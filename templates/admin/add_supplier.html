@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+
+{% block title %}Thêm nhà cung cấp mới{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h1 class="h3 mb-4">Thêm nhà cung cấp mới</h1>
+    <form method="POST" action="{{ url_for('admin.add_supplier') }}">
+        <h2 class="h5">Thông tin nhà cung cấp</h2>
+        <div class="form-group">
+            <label for="ten_nha_cung_cap">Tên nhà cung cấp:</label>
+            <input type="text" class="form-control" id="ten_nha_cung_cap" name="ten_nha_cung_cap" required>
+        </div>
+        <div class="form-group">
+            <label for="dia_chi">Địa chỉ:</label>
+            <input type="text" class="form-control" id="dia_chi" name="dia_chi" required>
+        </div>
+        <div class="form-group">
+            <label for="so_dien_thoai">Số điện thoại:</label>
+            <input type="text" class="form-control" id="so_dien_thoai" name="so_dien_thoai" required>
+        </div>
+        <div class="form-group">
+            <label for="email">Email:</label>
+            <input type="email" class="form-control" id="email" name="email" required>
+        </div>
+
+        <h2 class="h5">Thông tin người dùng</h2>
+        <div class="form-group">
+            <label for="ho_ten">Họ và tên người dùng:</label>
+            <input type="text" class="form-control" id="ho_ten" name="ho_ten" required>
+        </div>
+        <div class="form-group">
+            <label for="ngay_sinh">Ngày sinh:</label>
+            <input type="date" class="form-control" id="ngay_sinh" name="ngay_sinh" required>
+        </div>
+        <div class="form-group">
+            <label for="dia_chi_nguoi_dung">Địa chỉ người dùng:</label>
+            <input type="text" class="form-control" id="dia_chi_nguoi_dung" name="dia_chi_nguoi_dung" required>
+        </div>
+        <div class="form-group">
+            <label for="so_dien_thoai_nguoi_dung">Số điện thoại người dùng:</label>
+            <input type="text" class="form-control" id="so_dien_thoai_nguoi_dung" name="so_dien_thoai_nguoi_dung" required>
+        </div>
+        <div class="form-group">
+            <label for="email_nguoi_dung">Email người dùng:</label>
+            <input type="email" class="form-control" id="email_nguoi_dung" name="email_nguoi_dung" required>
+        </div>
+        <div class="form-group">
+            <label for="mat_khau">Mật khẩu:</label>
+            <input type="password" class="form-control" id="mat_khau" name="mat_khau" required>
+        </div>
+        <button type="submit" class="btn btn-primary">Thêm nhà cung cấp</button>
+    </form>
+</div>
+
+<script>
+document.getElementById('ten_nha_cung_cap').addEventListener('input', function() {
+    document.getElementById('ho_ten').value = this.value;
+});
+
+document.getElementById('dia_chi').addEventListener('input', function() {
+    document.getElementById('dia_chi_nguoi_dung').value = this.value;
+});
+
+document.getElementById('so_dien_thoai').addEventListener('input', function() {
+    document.getElementById('so_dien_thoai_nguoi_dung').value = this.value;
+});
+
+document.getElementById('email').addEventListener('input', function() {
+    document.getElementById('email_nguoi_dung').value = this.value;
+});
+</script>
+{% endblock %}

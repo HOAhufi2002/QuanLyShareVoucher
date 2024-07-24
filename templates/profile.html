@@ -3,9 +3,9 @@
 {% block title %}Thông tin cá nhân{% endblock %}
 
 {% block content %}
-<div class="container">
-    <h1 class="mt-4 mb-4">Thông tin cá nhân</h1>
-    <form method="post">
+<div class="container mt-5">
+    <h1 class="text-center text-primary mb-4">Thông tin cá nhân</h1>
+    <form method="post" class="shadow p-4 rounded bg-light">
         <div class="form-group">
             <label for="hoTen">Họ và tên:</label>
             <input type="text" class="form-control" name="hoTen" id="hoTen" value="{{ user.hoTen }}" required>
@@ -26,32 +26,34 @@
             <label for="email">Email:</label>
             <input type="email" class="form-control" name="email" id="email" value="{{ user.email }}" required>
         </div>
-
-
-
-        <div class="form-group">
-            <button type="submit" class="btn btn-primary">Cập nhật</button>
+        <div class="form-group text-center">
+            <button type="submit" class="btn btn-success">Cập nhật</button>
         </div>
     </form>
-    <p><a href="{{ url_for('main.change_password') }}" class="btn btn-link">Đổi mật khẩu</a></p>
+    <div class="text-center mt-3">
+        <a href="{{ url_for('main.change_password') }}" class="btn btn-link">Đổi mật khẩu</a>
+    </div>
+
+    {% if user.quyen == 'nhacungcap' and supplier %}
+    <h2 class="text-center text-primary mt-5">Thông tin nhà cung cấp</h2>
+    <form class="shadow p-4 rounded bg-light">
+        <div class="form-group">
+            <label for="tenNhaCungCap">Tên nhà cung cấp:</label>
+            <input type="text" class="form-control" name="tenNhaCungCap" id="tenNhaCungCap" value="{{ supplier.tenNhaCungCap }}" required>
+        </div>
+        <div class="form-group">
+            <label for="diaChiNCC">Địa chỉ nhà cung cấp:</label>
+            <input type="text" class="form-control" name="diaChiNCC" id="diaChiNCC" value="{{ supplier.diaChi }}" required>
+        </div>
+        <div class="form-group">
+            <label for="soDienThoaiNCC">Số điện thoại nhà cung cấp:</label>
+            <input type="text" class="form-control" name="soDienThoaiNCC" id="soDienThoaiNCC" value="{{ supplier.soDienThoai }}" required>
+        </div>
+        <div class="form-group">
+            <label for="emailNCC">Email nhà cung cấp:</label>
+            <input type="email" class="form-control" name="emailNCC" id="emailNCC" value="{{ supplier.email }}" required>
+        </div>
+    </form>
+    {% endif %}
 </div>
-{% if user.quyen == 'nhacungcap' and supplier %}
-<h2 class="mt-5">Thông tin nhà cung cấp</h2>
-<div class="form-group">
-    <label for="tenNhaCungCap">Tên nhà cung cấp:</label>
-    <input type="text" class="form-control" name="tenNhaCungCap" id="tenNhaCungCap" value="{{ supplier.tenNhaCungCap }}" required>
-</div>
-<div class="form-group">
-    <label for="diaChiNCC">Địa chỉ nhà cung cấp:</label>
-    <input type="text" class="form-control" name="diaChiNCC" id="diaChiNCC" value="{{ supplier.diaChi }}" required>
-</div>
-<div class="form-group">
-    <label for="soDienThoaiNCC">Số điện thoại nhà cung cấp:</label>
-    <input type="text" class="form-control" name="soDienThoaiNCC" id="soDienThoaiNCC" value="{{ supplier.soDienThoai }}" required>
-</div>
-<div class="form-group">
-    <label for="emailNCC">Email nhà cung cấp:</label>
-    <input type="email" class="form-control" name="emailNCC" id="emailNCC" value="{{ supplier.email }}" required>
-</div>
-{% endif %}
 {% endblock %}

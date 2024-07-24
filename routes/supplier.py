@@ -77,6 +77,7 @@ def nhacungcap_manage_discounts():
     
     return render_template('supplier/nhacungcap_manage_discounts.html', discounts=discounts, programs=programs)
 
+
 @supplier_bp.route('/nhacungcap_manage_products', methods=['GET', 'POST'])
 def nhacungcap_manage_products():
     if 'user_id' not in session or session['user_role'] != 'nhacungcap':

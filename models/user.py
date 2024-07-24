@@ -126,6 +126,24 @@ class User:
         user = cursor.fetchone()
         conn.close()
         return user
+ 
+    @staticmethod
+    def insert_user(ho_ten, ngay_sinh, dia_chi, so_dien_thoai, email, mat_khau, quyen, is_del):
+        query = """
+        INSERT INTO NguoiDung (hoTen, ngaySinh, diaChi, soDienThoai, email, matKhau, quyen, isDel)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+        """
+        try:
+            conn = get_db_connection()
+            cursor = conn.cursor()
+            cursor.execute(query, (ho_ten, ngay_sinh, dia_chi, so_dien_thoai, email, mat_khau, quyen, is_del))
+            conn.commit()
+            user_id = cursor.execute("SELECT @@IDENTITY AS id").fetchone()[0]
+            conn.close()
+            return user_id
+        except Exception as e:
+            print(f"Error inserting user: {e}")
+            return None
 
     @staticmethod
     def get_by_email_and_password(email, password):

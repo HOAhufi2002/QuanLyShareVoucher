@@ -79,14 +79,8 @@
     <div class="pre-header">
         <div class="container">
             <div class="row">
-                <div class="col-lg-6 col-sm-6">
-                    <span>Welcome to our discount platform!</span>
-                </div>
-                <div class="col-lg-6 col-sm-6">
-                    <div class="text-button">
-                        <a href="{{ url_for('main.contact') }}">Contact Us Now! <i class="fa fa-arrow-right"></i></a>
-                    </div>
-                </div>
+          
+           
             </div>
         </div>
     </div>
@@ -98,7 +92,7 @@
                 <div class="col-12">
                     <nav class="main-nav">
                         <!-- ***** Logo Start ***** -->
-                        <a href="{{ url_for('main.home') }}" class="logo">Discount<em>Platform</em></a>
+                        <a href="{{ url_for('main.home') }}" class="logo">Dung<em>ShareVoucher</em></a>
                         <!-- ***** Logo End ***** -->
                         <!-- ***** Menu Start ***** -->
                         <ul class="nav">
@@ -115,7 +109,6 @@
                                         </a>
                                         <ul class="dropdown-menu">
                                             <li class="nav-item"><a class="nav-link" href="{{ url_for('admin.manage_discounts') }}">Quản lý chương trình giảm giá</a></li>
-                                            <li class="nav-item"><a class="nav-link" href="{{ url_for('admin.manage_vouchers') }}">Quản lý mã giảm giá</a></li>
                                             <li class="nav-item"><a class="nav-link" href="{{ url_for('admin.manage_suppliers') }}">Quản lý nhà cung cấp</a></li>
                                             <li class="nav-item"><a class="nav-link" href="{{ url_for('admin.manage_users') }}">Quản lý tài khoản</a></li> 
                                             <li class="nav-item"><a class="nav-link" href="{{ url_for('admin.manage_products') }}">Quản lý sản phẩm</a></li>
@@ -128,7 +121,7 @@
                                             <span class="caret"></span>
                                         </a>
                                         <ul class="dropdown-menu">
-                                            <li class="nav-item"><a class="nav-link" href="{{ url_for('supplier.nhacungcap_manage_discounts') }}">Quản lý giảm giá</a></li>
+                                            <li class="nav-item"><a class="nav-link" href="{{ url_for('supplier.nhacungcap_manage_discounts') }}">Quản lý mã giảm giá</a></li>
                                             <li class="nav-item"><a class="nav-link" href="{{ url_for('supplier.nhacungcap_manage_products') }}">Quản lý sản phẩm</a></li>
                                         </ul>
                                     </li>
@@ -145,7 +138,6 @@
                                         <li><a href="{{ url_for('main.profile') }}">Thông tin tài khoản</a></li>
                                         <li><a href="{{ url_for('favorite.favorite_list') }}">Danh sách yêu thích</a></li>
                                         <li><a href="{{ url_for('order.view_orders') }}">Đơn hàng của tôi</a></li>
-
                                         <li><a href="{{ url_for('auth.logout') }}">Đăng xuất</a></li>
                                     </ul>
                                 </li>
@@ -239,7 +231,7 @@
                             </div>
                             <div class="col-lg-6">
                                 <p class="copyright">Bản quyền 2024 Công ty Giảm Giá
-                                    <br>Thiết kế bởi: <a rel="nofollow" href="https://www.tooplate.com" target="_parent">Tooplate</a></p>
+                                    <br>Thiết kế bởi: <a rel="nofollow"  target="_parent">Tuấn Dũng</a></p>
                             </div>
                         </div>
                     </div>
@@ -248,7 +240,7 @@
                     <div class="sub-footer">
                         <div class="row">
                             <div class="col-lg-3">
-                                <div class="logo"><span>Discount<em>Platform</em></span></div>
+                                <div class="logo"><span>TuanDung<em>ShareVoucher</em></span></div>
                             </div>
                             <div class="col-lg-6">
                                 <div class="menu">

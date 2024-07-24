@@ -2,34 +2,62 @@
 
 {% block content %}
 <div class="container mt-5">
-    <h1 class="mb-4">Quản lý sản phẩm</h1>
-    <form method="POST" action="{{ url_for('supplier.nhacungcap_manage_products') }}" class="mb-4">
-        <div class="form-group">
-            <label for="ten_san_pham">Tên sản phẩm:</label>
-            <input type="text" id="ten_san_pham" name="ten_san_pham" class="form-control" required>
+    <h1 class="mb-4 text-center text-primary">Quản lý sản phẩm</h1>
+    <form method="POST" action="{{ url_for('supplier.nhacungcap_manage_products') }}" class="mb-5">
+        <div class="card shadow">
+            <div class="card-header bg-primary text-white">
+                <h2 class="card-title">Thêm sản phẩm mới</h2>
+            </div>
+            <div class="card-body">
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label for="ten_san_pham">Tên sản phẩm:</label>
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text"><i class="fas fa-box"></i></span>
+                            </div>
+                            <input type="text" id="ten_san_pham" name="ten_san_pham" class="form-control" required>
+                        </div>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="gia">Giá:</label>
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text"><i class="fas fa-dollar-sign"></i></span>
+                            </div>
+                            <input type="number" id="gia" name="gia" class="form-control" required>
+                        </div>
+                    </div>
+                </div>
+                <div class="text-right">
+                    <button type="submit" class="btn btn-success">Thêm sản phẩm</button>
+                </div>
+            </div>
         </div>
-        <div class="form-group">
-            <label for="gia">Giá:</label>
-            <input type="number" id="gia" name="gia" class="form-control" required>
-        </div>
-        <button type="submit" class="btn btn-primary">Thêm sản phẩm</button>
     </form>
 
-    <table class="table table-bordered table-hover">
-        <thead class="thead-dark">
-            <tr>
-                <th>Tên sản phẩm</th>
-                <th>Giá</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for product in products %}
-            <tr>
-                <td>{{ product.tenSanPham }}</td>
-                <td>{{ product.gia }}</td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+    <div class="card ">
+        <div class="card-header bg-secondary text-white">
+            <h2 class="card-title">Danh sách sản phẩm </h2>
+        </div>
+        <div class="card-body">
+            <table class="table table-bordered table-hover">
+                <thead >
+                    <tr>
+                        <th>Tên sản phẩm</th>
+                        <th>Giá</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for product in products %}
+                    <tr>
+                        <td>{{ product.tenSanPham }}</td>
+                        <td>{{ product.gia }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
 </div>
 {% endblock %}

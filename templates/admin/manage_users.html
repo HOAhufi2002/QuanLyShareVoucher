@@ -3,40 +3,70 @@
 {% block title %}Quản lý tài khoản{% endblock %}
 
 {% block content %}
-<h1>Quản lý tài khoản</h1>
-<a href="{{ url_for('admin.add_user') }}" ></a>
-<table class="table table-bordered mt-3">
-    <thead>
-        <tr>
-            <th>ID</th>
-            <th>Họ và tên</th>
-            <th>Email</th>
-            <th>Ngày sinh</th>
-            <th>Địa chỉ</th>
-            <th>Số điện thoại</th>
-            <th>Quyền</th>
-            <th>Hành động</th>
-        </tr>
-    </thead>
-    <tbody>
-        {% for user in users %}
-        <tr>
-            <td>{{ user.id }}</td>
-            <td>{{ user.hoTen }}</td>
-            <td>{{ user.email }}</td>
-            <td>{{ user.ngaySinh }}</td>
-            <td>{{ user.diaChi }}</td>
-            <td>{{ user.soDienThoai }}</td>
-            <td>{{ user.quyen }}</td>
-            <td>
-                <a href="{{ url_for('admin.edit_user', user_id=user['id']) }}" class="btn btn-sm btn-warning">Sửa</a>
-                <form method="post" action="{{ url_for('admin.delete_user', user_id=user['id']) }}" style="display:inline;">
-                    <button type="submit" class="btn btn-sm btn-danger">Xóa</button>
-                </form>
-                
-            </td>
-        </tr>
-        {% endfor %}
-    </tbody>
-</table>
+<div class="container mt-5">
+    <h1 class="text-center text-primary mb-4">Quản lý tài khoản</h1>
+
+    <table class="table table-bordered table-hover shadow-sm rounded">
+        <thead class="thead-dark">
+            <tr>
+                <th>ID</th>
+                <th>Họ và tên</th>
+                <th>Email</th>
+                <th>Ngày sinh</th>
+                <th>Địa chỉ</th>
+                <th>Số điện thoại</th>
+                <th>Quyền</th>
+                <th>Hành động</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for user in users %}
+            <tr>
+                <td>{{ user.id }}</td>
+                <td>{{ user.hoTen }}</td>
+                <td>{{ user.email }}</td>
+                <td>{{ user.ngaySinh }}</td>
+                <td>{{ user.diaChi }}</td>
+                <td>{{ user.soDienThoai }}</td>
+                <td>{{ user.quyen }}</td>
+                <td>
+                    <a href="{{ url_for('admin.edit_user', user_id=user.id) }}" class="btn btn-sm btn-warning">
+                        <i class="fas fa-edit"></i> Sửa
+                    </a>
+                    <form method="post" action="{{ url_for('admin.delete_user', user_id=user.id) }}" style="display:inline;">
+                        <button type="submit" class="btn btn-sm btn-danger">
+                            <i class="fas fa-trash-alt"></i> Xóa
+                        </button>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<!-- Add this script at the bottom of your page or include in your base.html -->
+<script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+
+<style>
+    .table {
+        background-color: #ffffff;
+    }
+    .table th, .table td {
+        vertical-align: middle;
+    }
+    .btn {
+        margin-right: 5px;
+    }
+    .btn-warning {
+        color: #ffffff;
+        background-color: #ffcc00;
+        border-color: #ffcc00;
+    }
+    .btn-danger {
+        color: #ffffff;
+        background-color: #ff3333;
+        border-color: #ff3333;
+    }
+</style>
 {% endblock %}

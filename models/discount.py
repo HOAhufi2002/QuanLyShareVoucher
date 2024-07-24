@@ -1,5 +1,5 @@
 from db import get_db_connection
-
+from datetime import datetime
 class Discount:
     @staticmethod
     def add_discount(ten_chuong_trinh, mo_ta, ngay_bat_dau, ngay_ket_thuc, nha_cung_cap_id):
@@ -177,13 +177,40 @@ class Discount:
     def nhacungcap_add_discount(ma, phan_tram_giam_gia, ngay_het_han, id_chuong_trinh_giam_gia):
         conn = get_db_connection()
         cursor = conn.cursor()
+
+        # Thêm mã giảm giá mới
         cursor.execute('''
-            INSERT INTO MaGiamGia (ma, phanTramGiamGia, ngayHetHan, idChuongTrinhGiamGia)
-            VALUES (?, ?, ?, ?)
+            INSERT INTO MaGiamGia (ma, phanTramGiamGia, ngayHetHan, idChuongTrinhGiamGia, isDel)
+            VALUES (?, ?, ?, ?, 0)
         ''', (ma, phan_tram_giam_gia, ngay_het_han, id_chuong_trinh_giam_gia))
         conn.commit()
-        conn.close()
 
+        # Lấy ID của mã giảm giá vừa được chèn vào
+        cursor.execute('SELECT @@IDENTITY AS id')
+        ma_giam_gia_id = cursor.fetchone()[0]
+
+        # Tạo thông báo mới
+        noi_dung = f"Nhà cung cấp đã tạo mã giảm giá mới: {ma}, Giảm {phan_tram_giam_gia}%."
+        ngay_gui = datetime.now().date()
+        cursor.execute('''
+            INSERT INTO ThongBao (noiDung, ngayGui)
+            VALUES (?, ?)
+        ''', (noi_dung, ngay_gui))
+        conn.commit()
+
+        # Lấy ID của thông báo vừa được chèn vào
+        cursor.execute('SELECT @@IDENTITY AS id')
+        thong_bao_id = cursor.fetchone()[0]
+
+        # Gửi thông báo cho tất cả người dùng
+        cursor.execute('''
+            INSERT INTO ThongBao_NguoiDung (idThongBao, idNguoiDung, trangThai)
+            SELECT ?, id, 'chuaDoc' FROM NguoiDung
+        ''', (thong_bao_id,))
+        conn.commit()
+
+        conn.close()
+        
     @staticmethod
     def nhacungcap_get_discounts_by_supplier(id_nha_cung_cap):
         conn = get_db_connection()
